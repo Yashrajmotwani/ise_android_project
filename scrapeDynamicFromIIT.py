@@ -14,9 +14,13 @@ def scrape_website(college, department):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
+    # Initialize the WebDriver
     # driver_path = r"C:\Users\dell\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe" 
     # service = Service(driver_path) # For local execution
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options) # For Deployment
+    # driver = webdriver.Chrome(service=service, options=chrome_options) # For local execution
+    
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options) # For Deployment
     
     try:
         # Open the target URL
