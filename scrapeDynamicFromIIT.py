@@ -22,8 +22,10 @@ def scrape_website(college, department):
         # Open the target URL
         driver.get(url)
         
+        
+        
         # Find all elements with the "team-info" class
-        team_info_elements = driver.find_elements(By.CLASS_NAME, "team-info")
+        team_info_elements = driver.find_elements(By.CLASS_NAME, "single-team")
         # print("team_info_elements", team_info_elements)
         extracted_data = []
         for element in team_info_elements:
@@ -37,6 +39,7 @@ def scrape_website(college, department):
                 "areas_of_interest": r'<b>Areas of Interest</b>:(.*?)(<p|</div>)',
                 "phone": r'<i class="fal fa-phone-alt [^>]+"></i>(\d{4} \d{3} \d{4})',
                 "email": r'Email : ([^<]+)',
+                 "image_link": r'<div class="team-thumb">.*?<img src="([^"]+)" alt="img">',
             }
 
                 # Extract information using regex
