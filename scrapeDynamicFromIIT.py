@@ -6,7 +6,25 @@ from selenium.webdriver.chrome.options import Options # type: ignore
 from webdriver_manager.chrome import ChromeDriverManager# type: ignore
 
 def scrape_website(college, department):
-    url = "https://iittp.ac.in/computer-science-engineering-department"
+    
+    links = {
+        "iittp": {"cse": "https://iittp.ac.in/computer-science-engineering-department",
+                   "ee": "https://iittp.ac.in/electrical-engineering-department",
+                   "chemical" : "https://iittp.ac.in/chemical-engineering-department",
+                   "chemistry" : "https://iittp.ac.in/chemistry-department",
+                   "civil" : "https://iittp.ac.in/civilengineering-department",
+                   "hss" : "https://iittp.ac.in/humanities-and-social-sciences-department",
+                   "maths" : "https://iittp.ac.in/mathematics-department",
+                   "mechanical" : "https://iittp.ac.in/mechanical-engineering-department",
+                   "physics" : "https://iittp.ac.in/physics-department",
+                   },
+    }
+    url = ""
+    
+    if college not in links.keys() or department not in links[college].keys():
+        return {"error": "Invalid college or department"}
+    
+    url = links[college][department]
     
     # Set up Selenium with headless Chrome
     chrome_options = Options()
@@ -36,7 +54,7 @@ def scrape_website(college, department):
         # print("team_info_elements", team_info_elements)
         extracted_data = []
         for element in team_info_elements:
-            # print("HTML of element:",  element.get_attribute("outerHTML"))
+            print("HTML of element:",  element.get_attribute("outerHTML"), "\n\n\n")
             element = element.get_attribute("outerHTML")
 
             patterns = {
