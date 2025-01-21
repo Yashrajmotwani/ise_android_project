@@ -15,9 +15,8 @@ def scrape_website(college, department):
     chrome_options.add_argument("--disable-dev-shm-usage")
     
     # driver_path = r"C:\Users\dell\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe" 
-    driver_path = webdriver.Chrome(ChromeDriverManager().install())
-    service = Service(driver_path)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    # service = Service(driver_path) # For local execution
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options) # For Deployment
     
     try:
         # Open the target URL
