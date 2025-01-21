@@ -19,8 +19,11 @@ def scrape_website(college, department):
     # service = Service(driver_path) # For local execution
     # driver = webdriver.Chrome(service=service, options=chrome_options) # For local execution
     
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options) # For Deployment
+    chrome_options.binary_location = "/usr/bin/google-chrome"  # Path to Chrome binary
+
+    # Use the specified Chromedriver path
+    service = Service("/usr/bin/chromedriver")  # Path to Chromedriver
+    driver = webdriver.Chrome(service=service, options=chrome_options)# For Deployment
     
     try:
         # Open the target URL
