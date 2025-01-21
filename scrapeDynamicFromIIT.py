@@ -22,7 +22,7 @@ def scrape_website(college, department):
     chrome_options.binary_location = "/usr/bin/google-chrome"  # Path to Chrome binary
 
     # Use the specified Chromedriver path
-    service = Service("/usr/bin/chromedriver")  # Path to Chromedriver
+    service = Service("/usr/bin/chromedriver-linux64/chromedriver")  # Path to Chromedriver
     driver = webdriver.Chrome(service=service, options=chrome_options)# For Deployment
     
     try:

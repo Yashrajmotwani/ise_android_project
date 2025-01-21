@@ -13,6 +13,11 @@ app = Flask(__name__)
 #         return jsonify(data), 500  # Return error response if scraping fails
 #     return jsonify(data)  # Return scraped data as JSON
 
+@app.route("/")
+def index():
+    # print(f"Request received from: {request.remote_addr}")
+    return "Hello, World!"
+
 
 @app.route("/<college>/<department>", methods=["GET"])
 def get_data(college, department):
