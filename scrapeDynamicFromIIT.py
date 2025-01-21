@@ -58,13 +58,13 @@ def scrape_website(college, department):
             element = element.get_attribute("outerHTML")
 
             patterns = {
-                "name": r'<h4><a [^>]+>([^<]+)</a></h4>',
-                "position": r'<p>\s*<i class="fal fa-graduation-cap [^>]+"></i>([^<]+)</p>',
+                "name": r'<h4(?: class="[^"]*")?><a [^>]+>([^<]+)</a></h4>',
+                "position": r'<p>\s*<i class="fal fa-graduation-cap [^>]+"></i>\s*([^<]+)</p>',
                 "degree": r'<p class="text-dark">([^<]+)</p>',
-                "areas_of_interest": r'<b>Areas of Interest</b>:(.*?)(<p|</div>)',
-                "phone": r'<i class="fal fa-phone-alt [^>]+"></i>(\d{4} \d{3} \d{4})',
-                "email": r'Email : ([^<]+)',
-                 "image_link": r'<div class="team-thumb">.*?<img src="([^"]+)" alt="img">',
+                "areas_of_interest": r'(?:<b>Areas of Interest:?</b>:?|<span class="fw-bold text-dark">\s*Areas of Interest:?\s*</span>)\s*([^<]+)',
+                "phone": r'<i class="fal fa-phone-alt [^>]+"></i>\s*([\d\s]+)',
+                "email": r'(?:Email : )?([^<\s]+@[a-zA-Z0-9.-]+)',
+                "image_link": r'<div class="team-thumb">.*?<img src="([^"]+)" alt="img">',
             }
 
                 # Extract information using regex
