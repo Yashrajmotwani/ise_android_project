@@ -25,7 +25,7 @@ def get_data(college, department):
     data = scrape_website(college, department)
     # print(data)
     if "error" in data:
-        return jsonify(data), 500  # Return error response if scraping fails
+        return jsonify(data), 400  # Return error response if scraping fails
     return jsonify(data)  # Return scraped data as JSON
 
 

@@ -17,12 +17,23 @@ def scrape_website(college, department):
                    "maths" : "https://iittp.ac.in/mathematics-department",
                    "mechanical" : "https://iittp.ac.in/mechanical-engineering-department",
                    "physics" : "https://iittp.ac.in/physics-department",
+                   "project_postions" : "https://www.iittp.ac.in/Project_Positions",
                    },
-    }
+        "iitm": {"cse": "https://www.cse.iitm.ac.in/listpeople.php?arg=MSQkJA==",
+                     "ee": "https://www.ee.iitm.ac.in/people/faculty",
+                     "chemical" : "https://chem.iitm.ac.in/faculty",
+                     "chemistry" : "https://chemistry.iitm.ac.in/faculty",
+                     "civil" : "https://civil.iitm.ac.in/people/faculty",
+                     "hss" : "https://hss.iitm.ac.in/people/faculty",
+                     "maths" : "https://maths.iitm.ac.in/people/faculty",
+                     "mechanical" : "https://mech.iitm.ac.in/people/faculty",
+                     "physics" : "https://physics.iitm.ac.in/people/faculty",
+                     },
+        }
     url = ""
     
     if college not in links.keys() or department not in links[college].keys():
-        return {"error": "Invalid college or department"}
+         return {"error": "Invalid college or department or URL format. The correct format is /<college>/<department>."}
     
     url = links[college][department]
     
@@ -46,13 +57,46 @@ def scrape_website(college, department):
     try:
         # Open the target URL
         driver.get(url)
+        extracted_data = []
         
+        if (department == "project_postions"):
+            # Find the table rows inside the tbody
+            rows = driver.find_elements(By.CSS_SELECTOR, "table tbody tr")
+            
+            # extracted_data = []
+            for row in rows:
+                # Get the HTML content of the row
+                row_html = row.get_attribute("outerHTML")
+
+                # Define patterns to extract required details
+                patterns = {
+                    "date": r'<td>\s*([\d.]+)\s*</td>',
+                    "name_of_post": r'<td>\s*([^<]+Position[^<]+)\s*</td>',
+                    "advertisement_link": r'<td><a href="([^"]+)" target="_blank">Advertisement',
+                    "application_link": r'<a class="text-maroon [^"]*" href="([^"]+)" target="_blank">Click here to apply</a>',
+                    "last_date": r'Last date for submission application\s*:\s*([\d.]+)',
+                    "status": r'<td>\s*<div>.*?<a class="text-maroon [^"]*" href="([^"]*)"'
+                }
+
+                # Extract information using regex
+                extracted_row = {}
+                for key, pattern in patterns.items():
+                    match = re.search(pattern, row_html, re.DOTALL)
+                    if match:
+                        extracted_row[key] = match.group(1).strip()
+                    else:
+                        extracted_row[key] = "N/A"
+
+                extracted_data.append(extracted_row)
+
+            return extracted_data
+            
         
         
         # Find all elements with the "team-info" class
         team_info_elements = driver.find_elements(By.CLASS_NAME, "single-team")
         # print("team_info_elements", team_info_elements)
-        extracted_data = []
+        # extracted_data = []
         for element in team_info_elements:
             # print("HTML of element:",  element.get_attribute("outerHTML"), "\n\n\n")
             element = element.get_attribute("outerHTML")
@@ -67,7 +111,7 @@ def scrape_website(college, department):
                 "image_link": r'<div class="team-thumb">.*?<img src="([^"]+)" alt="img">',
             }
 
-                # Extract information using regex
+            # Extract information using regex
             ext_data = {}
 
             for key, pattern in patterns.items():
@@ -77,14 +121,6 @@ def scrape_website(college, department):
                 else:
                         ext_data[key] = "N/A"
             extracted_data.append(ext_data)
-            # extracted_data.append({
-            #     "name": name,
-            #     "position": position,
-            #     "degree": degree,
-            #     "areas_of_interest": areas_of_interest,
-            #     "phone": phone,
-            #     "email": email,
-            # })
 
         return extracted_data
     except Exception as e:
