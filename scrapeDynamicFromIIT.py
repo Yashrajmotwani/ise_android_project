@@ -54,7 +54,7 @@ def scrape_website(college, department):
         # print("team_info_elements", team_info_elements)
         extracted_data = []
         for element in team_info_elements:
-            print("HTML of element:",  element.get_attribute("outerHTML"), "\n\n\n")
+            # print("HTML of element:",  element.get_attribute("outerHTML"), "\n\n\n")
             element = element.get_attribute("outerHTML")
 
             patterns = {
