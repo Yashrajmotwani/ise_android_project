@@ -27,4 +27,7 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Set the default command to run your Flask app
-CMD ["python", "my_flask_app.py"]
+# For hosting the app using Flask
+# CMD ["python", "my_flask_app.py"]
+# For hosting the app using Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "my_flask_app:app"]
