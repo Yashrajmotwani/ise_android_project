@@ -23,14 +23,13 @@ def index():
 def get_data(college, department):
     # Call the scraper
     data = scrape_website(college, department)
-    print(data)
+    # print(data)
     if "error" in data:
         return jsonify(data), 500  # Return error response if scraping fails
     return jsonify(data)  # Return scraped data as JSON
 
 
 if __name__ == "__main__":
-    
     app.run(host= "0.0.0.0", port = 5000, debug=True)
 
 # api # http://127.0.0.1:5000/api/data
