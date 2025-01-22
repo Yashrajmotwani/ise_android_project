@@ -17,7 +17,7 @@ def scrape_website(college, department):
                    "maths" : "https://iittp.ac.in/mathematics-department",
                    "mechanical" : "https://iittp.ac.in/mechanical-engineering-department",
                    "physics" : "https://iittp.ac.in/physics-department",
-                   "project_postions" : "https://www.iittp.ac.in/Project_Positions",
+                   "project_positions" : "https://www.iittp.ac.in/Project_Positions",
                    },
         "iitm": {"cse": "https://www.cse.iitm.ac.in/listpeople.php?arg=MSQkJA==",
                      "ee": "https://www.ee.iitm.ac.in/people/faculty",
@@ -59,7 +59,7 @@ def scrape_website(college, department):
         driver.get(url)
         extracted_data = []
         
-        if (department == "project_postions"):
+        if (department == "project_positions"):
             # Find the table rows inside the tbody
             rows = driver.find_elements(By.CSS_SELECTOR, "table tbody tr")
             
