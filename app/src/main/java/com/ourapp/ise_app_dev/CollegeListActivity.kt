@@ -5,16 +5,27 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class CollegeListActivity : AppCompatActivity() {
+
+    private lateinit var collegeAdapter: CollegeAdapter
+    private val collegeList = listOf(
+        College("IIT Bombay", 1, "Maharashtra", "https://example.com/logo1.png"),
+        College("IIT Delhi", 2, "Delhi", "https://example.com/logo2.png"),
+        College("IIT Kanpur", 3, "Uttar Pradesh", "https://example.com/logo3.png")
+        // Add more colleges here
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_college_list)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        collegeAdapter = CollegeAdapter(collegeList)
+        recyclerView.adapter = collegeAdapter
     }
 }
