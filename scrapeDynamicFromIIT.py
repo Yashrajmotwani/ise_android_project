@@ -4,32 +4,10 @@ from selenium.webdriver.common.by import By # type: ignore
 from selenium.webdriver.chrome.service import Service # type: ignore
 from selenium.webdriver.chrome.options import Options # type: ignore
 from webdriver_manager.chrome import ChromeDriverManager# type: ignore
+from links import links
 
-def scrape_website(college, department):
-    
-    links = {
-        "iittp": {"cse": "https://iittp.ac.in/computer-science-engineering-department",
-                   "ee": "https://iittp.ac.in/electrical-engineering-department",
-                   "chemical" : "https://iittp.ac.in/chemical-engineering-department",
-                   "chemistry" : "https://iittp.ac.in/chemistry-department",
-                   "civil" : "https://iittp.ac.in/civilengineering-department",
-                   "hss" : "https://iittp.ac.in/humanities-and-social-sciences-department",
-                   "maths" : "https://iittp.ac.in/mathematics-department",
-                   "mechanical" : "https://iittp.ac.in/mechanical-engineering-department",
-                   "physics" : "https://iittp.ac.in/physics-department",
-                   "project_positions" : "https://www.iittp.ac.in/Project_Positions",
-                   },
-        "iitm": {"cse": "https://www.cse.iitm.ac.in/listpeople.php?arg=MSQkJA==",
-                     "ee": "https://www.ee.iitm.ac.in/people/faculty",
-                     "chemical" : "https://chem.iitm.ac.in/faculty",
-                     "chemistry" : "https://chemistry.iitm.ac.in/faculty",
-                     "civil" : "https://civil.iitm.ac.in/people/faculty",
-                     "hss" : "https://hss.iitm.ac.in/people/faculty",
-                     "maths" : "https://maths.iitm.ac.in/people/faculty",
-                     "mechanical" : "https://mech.iitm.ac.in/people/faculty",
-                     "physics" : "https://physics.iitm.ac.in/people/faculty",
-                     },
-        }
+
+def scrape_website(college, department):    
     url = ""
     
     if college not in links.keys() or department not in links[college].keys():
@@ -87,6 +65,8 @@ def scrape_website(college, department):
                     else:
                         extracted_row[key] = "N/A"
 
+                extracted_row["college"] = college
+                extracted_row["department"] = department
                 extracted_data.append(extracted_row)
 
             return extracted_data
@@ -127,4 +107,17 @@ def scrape_website(college, department):
         return {"error": str(e)}
     finally:
         driver.quit()
+        
+
+def scrape_website_allInfo():
+    scraped_data = []
+    for college, departments in links.items():
+        for department in departments:
+            data = scrape_website(college, department)
+            if "error" in data:
+                continue
+            scraped_data.append(data)
+    return scraped_data
+        
+    
     
