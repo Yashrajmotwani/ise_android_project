@@ -1,6 +1,7 @@
 package com.ourapp.ise_app_dev
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ourapp.ise_app_dev.ui.theme.Ise_app_devTheme
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
+        val fab: FloatingActionButton = findViewById(R.id.fab)
 
         bottomNavigationView.setOnItemSelectedListener { menuItem: MenuItem ->
             // Handle item selection
@@ -55,6 +59,30 @@ class MainActivity : AppCompatActivity() {
         // Set the default selected item
         bottomNavigationView.selectedItemId = R.id.nav_positions
 
+
+        fab.setOnClickListener { view ->
+            // Create the BottomSheetDialog
+            val bottomSheetDialog = BottomSheetDialog(this)
+            val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
+            bottomSheetDialog.setContentView(bottomSheetView)
+
+            // Set onClickListeners for the options
+            bottomSheetView.findViewById<View>(R.id.view_map_option).setOnClickListener {
+                // Navigate to MapActivity
+                val mapIntent = Intent(this, MapActivity::class.java)
+                startActivity(mapIntent)
+                bottomSheetDialog.dismiss() // Close the BottomSheet
+            }
+
+            bottomSheetView.findViewById<View>(R.id.view_college_list_option).setOnClickListener {
+                // Navigate to CollegeListActivity
+                val collegeIntent = Intent(this, CollegeListActivity::class.java)
+                startActivity(collegeIntent)
+                bottomSheetDialog.dismiss() // Close the BottomSheet
+            }
+
+            bottomSheetDialog.show() // Show the BottomSheet
+        }
 
     }
 
