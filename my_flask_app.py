@@ -17,7 +17,9 @@ app = Flask(__name__)
 
 client = MongoClient("mongodb+srv://AnnavarapuSaiJagadeesh:Jagadeesh123@cluster0.zdgxc.mongodb.net/")  # Adjust the connection URI as needed
 db = client["IITDB"]  # Replace with your database name
-collection = db["IIT"]   # Replace with your collection name
+collectionFT = db["IITFaculty"]   # Replace with your collection name
+collectionPRJ = db["IITProjects"]   # Replace with your collection name
+
 
 @app.route("/")
 def index():
@@ -26,27 +28,31 @@ def index():
 
 @app.route("/daata", methods=["GET"])
 def get_all_data():
-    existing_data = collection.find_one()
-    if existing_data:
-        print("The collection has at least one document.")
-        # Fetch all documents from the collection
-        all_documents = list(collection.find())
-        print("All documents in the collection:", all_documents)
-        for doc in all_documents:
-            if "_id" in doc:
-                doc["_id"] = str(doc["_id"])
-        # return documents
+    # existing_data = collectionFT.find_one()
+    # if existing_data:
+    #     print("The collection has at least one document.")
+    #     # Fetch all documents from the collection
+    #     all_documents = list(collectionFT.find())
+    #     print("All documents in the collection:", all_documents)
+        
+    #     # return documents
+    #      # Return the documents or use them as needed
+    #     for doc in all_documents:
+    #         if "_id" in doc:
+    #             doc["_id"] = str(doc["_id"])
+    #     return jsonify(all_documents)
          # Return the documents or use them as needed
-        return jsonify(all_documents)
-         # Return the documents or use them as needed
-        return all_documents
+        # return all_documents
 
     data = scrape_website_allInfo()
     # print(data)
     if "error" in data:
         return jsonify(data), 400  # Return error response if scraping fails
     
-    collection.insert_many(data)
+    # collectionFT.insert_many(data)
+    for doc in data:
+            if "_id" in doc:
+                doc["_id"] = str(doc["_id"])
     return jsonify(data)    # Return scraped data as JSON
 
 
@@ -58,29 +64,38 @@ def get_all_data():
 def get_data(college, department):
     # Call the scraper
     print("calling \n\n\n")
-    existing_data = collection.find_one()
+    collection = None
+    if department == "project_positions":
+        collection = collectionPRJ
+    else:
+        collection = collectionFT
+    # existing_data = list(collectionPRJ.find())
+    # existing_data = collection.find_one()
     
-    if existing_data:
-        print("The collection has at least one document.")
-    # Fetch all documents from the collection
-        all_documents = list(collection.find())
-        print("All documents in the collection:", all_documents)
-        for doc in all_documents:
-            if "_id" in doc:
-                doc["_id"] = str(doc["_id"])
-        # return documents
-         # Return the documents or use them as needed
-        return jsonify(all_documents)
+    # if existing_data:
+    #     print("The collection has at least one document.")
+    # # Fetch all documents from the collection
+    #     all_documents = list(collection.find())
+    #     print("All documents in the collection:", all_documents)
+    #     for doc in all_documents:
+    #         if "_id" in doc:
+    #             doc["_id"] = str(doc["_id"])
+    #      # Return the documents or use them as needed
+    #     return jsonify(all_documents)
     
     data = scrape_website(college, department)
     
-    print(data)
+    print(data, "\n\n\n\n")
     
     
     if "error" in data:
         return jsonify(data), 400  # Return error response if scraping fails
-    
+
     # collection.insert_many(data)
+    for doc in data:
+            if "_id" in doc:
+                doc["_id"] = str(doc["_id"])
+    print("data   ", data)
     return jsonify(data)    # Return scraped data as JSON
 
 
