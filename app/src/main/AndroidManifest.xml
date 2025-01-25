@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
+        <activity android:name=".SignOut"></activity>
+        <activity
+            android:name=".SignInActivity"
+            android:exported="false" />
         <activity
             android:name=".CollegeListActivity"
             android:exported="false" />
@@ -22,7 +26,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC49GOPzP7rJDvoPOgc5wEsRDyEL-pZaxM" />
-
 
         <activity
             android:name=".SplashScreen"
@@ -39,8 +42,8 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".MapActivity"
-            android:exported="false"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|screenLayout|smallestScreenSize"
+            android:exported="false"
             android:label="IIT Locations"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>

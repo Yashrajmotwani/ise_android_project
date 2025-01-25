@@ -81,6 +81,15 @@ class MainActivity : AppCompatActivity() {
                 bottomSheetDialog.dismiss() // Close the BottomSheet
             }
 
+            bottomSheetView.findViewById<View>(R.id.signout).setOnClickListener {
+                // Navigate to CollegeListActivity
+                val signOutIntent = Intent(this, SignOut::class.java)
+                signOutIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(signOutIntent)
+                bottomSheetDialog.dismiss()
+
+            }
+
             bottomSheetDialog.show() // Show the BottomSheet
         }
 

@@ -33,7 +33,7 @@ class SplashScreen : AppCompatActivity() {
         // Delay transition to MainActivity
         Handler(Looper.getMainLooper()).postDelayed({
             // Start MainActivity after 3 seconds
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()  // Finish SplashActivity so the user can't go back to it
         }, 500)
