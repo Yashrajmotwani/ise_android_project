@@ -9,15 +9,6 @@ def register_function(name):
         return func
     return wrapper
 
-# Define your functions and register them
-# @register_function("iit")
-# def abce(input_string):
-#     print(f"Called abce with input: {input_string}")
-
-# @register_function("bcd")
-# def bcde(input_string):
-#     print(f"Called bcde with input: {input_string}")
-
     
     
 @register_function("iittp")
@@ -72,7 +63,7 @@ def scrape_iittp(college, department, url, driver):
             patterns = {
                 "name": r'<h4(?: class="[^"]*")?><a [^>]+>([^<]+)</a></h4>',
                 "position": r'<p>\s*<i class="fal fa-graduation-cap [^>]+"></i>\s*([^<]+)</p>',
-                "degree": r'<p class="text-dark">([^<]+)</p>',
+                "qualification": r'<p class="text-dark">([^<]+)</p>',
                 "areas_of_interest": r'(?:<b>Areas of Interest:?</b>:?|<span class="fw-bold text-dark">\s*Areas of Interest:?\s*</span>)\s*([^<]+)',
                 "phone": r'<i class="fal fa-phone-alt [^>]+"></i>\s*([\d\s]+)',
                 "email": r'(?:Email : )?([^<\s]+@[a-zA-Z0-9.-]+)',
@@ -141,31 +132,56 @@ def scrape_iittp(college, department, url, driver):
     
     
         # Find all elements with the "team-info" class
-        faculty_cards = driver.find_elements(By.CSS_SELECTOR, ".masonry__item .card")
+        faculty_cards = driver.find_elements(By.CSS_SELECTOR, ".col-md-4.masonry__item")
 
         for card in faculty_cards:
-            # Get the outer HTML of the card
-            card_html = card.get_attribute("outerHTML")
+            # Extract individual details using tags or class names
+            try:
+                profile_link = card.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
+            except:
+                profile_link = "N/A"
 
-            # Define regex patterns for the required details
-            patterns = {
-                "profile_link": r'<a href="([^"]+)"',  # Link to the profile
-                "image_src": r'<img[^>]+src="([^"]+)"',  # Image source URL
-                "name": r'<a class="h5"[^>]*>([^<]+)</a>',  # Name of the faculty
-                "position": r'<span><strong><b>([^<]+)</b>',  # Position/Title
-                "qualification": r'<span>(PhD[^<]*)</span>',  # Qualification
-                "research_areas": r'([A-Za-z, \n]+(?:, [A-Za-z ]+)*)(?:<br>)?'  # Research areas, before or after <br>
+            try:
+                image_src = card.find_element(By.CSS_SELECTOR, "img").get_attribute("src")
+            except:
+                image_src = "N/A"
+
+            try:
+                name = card.find_element(By.CSS_SELECTOR, "a.h5").text.strip()
+            except:
+                name = "N/A"
+
+            try:
+                position = card.find_element(By.CSS_SELECTOR, "span > strong > b").text.strip()
+            except:
+                position = "N/A"
+
+            try:
+                qualification = card.find_element(By.XPATH, ".//span[contains(text(), 'PhD')]").text.strip()
+            except:
+                qualification = "N/A"
+
+            try:
+                # Handle research areas: this covers cases with `<br>` and plain text
+                research_area_element = card.find_element(By.CLASS_NAME, "card__body")
+                research_areas = research_area_element.text.split("\n")[-1].strip()
+            except:
+                research_areas = "N/A"
+
+            # Compile the extracted data into a dictionary
+            extracted_row = {
+                "college": college,
+                "department": department,
+                "profile_link": profile_link,
+                "image_link": image_src,
+                "name": name,
+                "position": position,
+                "qualification": qualification,
+                "areas_of_interest": research_areas,
             }
 
-            # Extract information using regex
-            extracted_row = {}
-            for key, pattern in patterns.items():
-                match = re.search(pattern, card_html)
-                if match:
-                    extracted_row[key] = match.group(1).strip()
-                else:
-                    extracted_row[key] = "N/A"
-
+            # Append to the extracted data
+            extracted_data.append(extracted_row)
             # Add college and department metadata
             extracted_row["college"] = college
             extracted_row["department"] = department

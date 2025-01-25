@@ -15,7 +15,7 @@ app = Flask(__name__)
 #     return jsonify(data)  # Return scraped data as JSON
 
 
-client = MongoClient("mongodb+srv://AnnavarapuSaiJagadeesh:Jagadeesh123@cluster0.zdgxc.mongodb.net/")  # Adjust the connection URI as needed
+client = MongoClient("mongodb+srv://AnnavarapuSaiJagadeesh:password@cluster0.zdgxc.mongodb.net/")  # Adjust the connection URI as needed
 db = client["IITDB"]  # Replace with your database name
 collectionFT = db["IITFaculty"]   # Replace with your collection name
 collectionPRJ = db["IITProjects"]   # Replace with your collection name
