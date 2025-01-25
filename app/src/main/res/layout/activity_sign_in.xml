@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- Welcome Text -->
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello, Scholar!"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#FFD700"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="250dp" />
+
+    <!-- Button behind Google Logo and Text -->
+
+
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="314dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/welcomeText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="5dp"
+        android:enabled="true"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:text="Authenticate with Google" /> <!-- Added Text for Button -->
+
+    <!-- Google Logo and Sign in Text -->
+
+
+    <TextView
+        android:id="@+id/startExploringText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="and start exploring!!!"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#FFD700"
+        android:textSize="18sp"
+        android:layout_below="@id/signInButton"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Footer Text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Powered by IIT Tirupati"
+        android:textSize="10sp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#00FF00"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10sp" />
+
+
+</RelativeLayout>
