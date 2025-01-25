@@ -180,14 +180,14 @@ def scrape_iittp(college, department, url, driver):
                 "areas_of_interest": research_areas,
             }
 
-            # Append to the extracted data
-            extracted_data.append(extracted_row)
+            
             # Add college and department metadata
             extracted_row["college"] = college
             extracted_row["department"] = department
 
             # Append to the extracted data
             extracted_data.append(extracted_row)
+            print("Newly added : ", extracted_row, "\n\n\n")
             
     return extracted_data
     
