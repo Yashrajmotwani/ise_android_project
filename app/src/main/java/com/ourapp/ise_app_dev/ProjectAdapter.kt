@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ourapp.ise_app_dev.databinding.FragmentSearchBinding
 import com.ourapp.ise_app_dev.databinding.ItemProjectBinding
 
-class ProjectAdapter(private val projects: List<Project>) : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
+class ProjectAdapter(private val projects: List<Project>, private val onProjectClick: (Project) -> Unit) :
+    RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
         val binding = ItemProjectBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,6 +30,11 @@ class ProjectAdapter(private val projects: List<Project>) : RecyclerView.Adapter
             binding.postingDate.text = project.posting_date
             binding.department.text = project.department
             // Set other project details if available
+
+            binding.root.setOnClickListener {
+                onProjectClick(project) // When the item is clicked, trigger the callback
+            }
+
         }
     }
 }
