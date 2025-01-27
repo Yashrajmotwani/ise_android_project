@@ -11,7 +11,7 @@
         android:id="@+id/searchEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Search Projects"
+        android:hint="Search Open Positions"
         android:layout_marginTop="60dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

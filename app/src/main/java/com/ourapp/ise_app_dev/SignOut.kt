@@ -39,14 +39,6 @@ class SignOut : AppCompatActivity() {
         val auth = Firebase.auth
         val user = auth.currentUser
 
-        if (user != null) {
-            val userName = user.displayName
-            textView.text = "Welcome, " + userName
-        } else {
-            // Handle the case where the user is not signed in
-        }
-
-
 
 // Inside onCreate() method
         val sign_out_button = findViewById<Button>(R.id.logout_button)
