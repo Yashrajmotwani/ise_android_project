@@ -62,7 +62,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/baseline_college_24"
+                android:src="@drawable/baseline_college_icon"
                 android:layout_marginEnd="12dp"/>
 
             <TextView
@@ -95,7 +95,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/baseline_college_24"
+                android:src="@drawable/baseline_signout_icon"
                 android:layout_marginEnd="12dp"/>
 
             <TextView
