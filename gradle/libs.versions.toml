@@ -45,6 +45,8 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps", ver
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glideCompiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+androidx-compose-ui = "androidx.compose.ui:ui:{versions.compose}"
+androidx-compose-material = "androidx.compose.material:material:{versions.compose}"
 
 
 [plugins]
