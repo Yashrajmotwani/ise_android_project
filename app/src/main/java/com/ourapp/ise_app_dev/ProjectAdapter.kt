@@ -2,6 +2,7 @@ package com.ourapp.ise_app_dev
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ourapp.ise_app_dev.databinding.FragmentSearchBinding
 import com.ourapp.ise_app_dev.databinding.ItemProjectBinding
@@ -27,9 +28,8 @@ class ProjectAdapter(private val projects: List<Project>, private val onProjectC
         fun bind(project: Project) {
             binding.projectTitle.text = project.name_of_post
             binding.discipline.text = project.discipline
-            binding.postingDate.text = project.posting_date
-            binding.department.text = project.department
-            // Set other project details if available
+            binding.lastDate.text = "Last Date: ${project.last_date}"
+            binding.college.text = "College: ${project.college}"
 
             binding.root.setOnClickListener {
                 onProjectClick(project) // When the item is clicked, trigger the callback

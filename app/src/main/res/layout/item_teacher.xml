@@ -41,26 +41,30 @@
 
         <!-- Department -->
         <TextView
-            android:id="@+id/discipline"
-            android:layout_width="wrap_content"
+            android:id="@+id/areaInterest"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Discipline"
+            android:text="Area of Interest"
             android:textSize="14sp"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/teacherName"
             app:layout_constraintStart_toEndOf="@id/teacherImage"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:paddingEnd="16dp"/>
 
         <!-- Posting Date -->
         <TextView
-            android:id="@+id/postingDate"
+            android:id="@+id/college"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Posting Date"
+            android:text="College"
             android:textSize="14sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/discipline"
+            app:layout_constraintTop_toBottomOf="@id/areaInterest"
             app:layout_constraintStart_toEndOf="@id/teacherImage"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"/>
@@ -73,7 +77,7 @@
             android:text="Email"
             android:textSize="14sp"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/postingDate"
+            app:layout_constraintTop_toBottomOf="@id/college"
             app:layout_constraintStart_toEndOf="@id/teacherImage"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"/>

@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- dialog_project_details.xml -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="?android:attr/windowBackground"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        android:layout_gravity="center"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:layout_height="wrap_content">
 
-        <!-- Project Name -->
+        <ImageView
+            android:id="@+id/teacherImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/baseline_face_24"
+            android:layout_gravity="center"
+            android:contentDescription="Teacher Image"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Teacher Name -->
         <TextView
-            android:id="@+id/projectName"
-            android:text="Project Name: "
+            android:id="@+id/teacherName"
+            android:text="Teacher Name: "
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -26,37 +32,37 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp" />
 
-        <!-- Discipline -->
+        <!-- Position -->
         <TextView
-            android:id="@+id/projectDiscipline"
-            android:text="Discipline: "
+            android:id="@+id/position"
+            android:text="Position: "
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <!-- Posting Date -->
+        <!-- Qualification -->
         <TextView
-            android:id="@+id/projectDate"
-            android:text="Posting Date: "
+            android:id="@+id/qualification"
+            android:text="Qualification: "
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <!-- Last Date -->
+        <!-- Area of Interest -->
         <TextView
-            android:id="@+id/lastDate"
-            android:text="Last Date: "
+            android:id="@+id/areaInterest"
+            android:text="Area of Interest: "
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <!-- Status -->
+        <!-- Phone -->
         <TextView
-            android:id="@+id/projectStatus"
-            android:text="Status: "
+            android:id="@+id/phone"
+            android:text="Phone: "
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,31 +77,23 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <!-- PI Name -->
+        <!-- Department -->
         <TextView
-            android:id="@+id/pi_name"
-            android:text="PI Name: "
+            android:id="@+id/department"
+            android:text="Department: "
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
 
-        <!-- Divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="12dp"
-            android:background="?android:attr/listDivider" />
-
-        <!-- Project Link (Clickable) -->
+        <!-- Email (Clickable) -->
         <TextView
-            android:id="@+id/projectLink"
-            android:text="Advertisement Link: "
+            android:id="@+id/emailID"
+            android:text="Email Id: "
             android:textSize="16sp"
             android:textColor="@android:color/holo_blue_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:clickable="true"
             android:focusable="true"
             android:autoLink="web"
@@ -103,5 +101,4 @@
             android:maxLines="1" />
 
     </LinearLayout>
-
 </ScrollView>

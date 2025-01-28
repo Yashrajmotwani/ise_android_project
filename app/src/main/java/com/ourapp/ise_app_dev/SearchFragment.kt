@@ -1,6 +1,7 @@
 package com.ourapp.ise_app_dev
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.view.View
 import androidx.appcompat.widget.SearchView
@@ -79,6 +80,8 @@ class SearchFragment : Fragment() {
         // Set the advertisement link (make it clickable)
         val projectLinkTextView = dialogView.findViewById<TextView>(R.id.projectLink)
         projectLinkTextView.text = project.advertisement_link
+        projectLinkTextView.maxLines = 1
+        projectLinkTextView.ellipsize = TextUtils.TruncateAt.END
         projectLinkTextView.setMovementMethod(LinkMovementMethod.getInstance())
 
         alertDialog.show()
