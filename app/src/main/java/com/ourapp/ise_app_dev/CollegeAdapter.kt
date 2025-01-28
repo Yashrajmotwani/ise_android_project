@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import android.net.Uri
-import android.content.Context
 
 class CollegeAdapter(private val collegeList: List<College>) : RecyclerView.Adapter<CollegeAdapter.CollegeViewHolder>() {
 

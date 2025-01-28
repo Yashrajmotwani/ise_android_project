@@ -2,9 +2,7 @@ package com.ourapp.ise_app_dev
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ourapp.ise_app_dev.databinding.FragmentSearchBinding
 import com.ourapp.ise_app_dev.databinding.ItemProjectBinding
 
 class ProjectAdapter(private val projects: List<Project>, private val onProjectClick: (Project) -> Unit) :

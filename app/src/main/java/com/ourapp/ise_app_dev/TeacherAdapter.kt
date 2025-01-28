@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ourapp.ise_app_dev.databinding.ItemTeacherBinding
 import android.text.TextUtils
-import android.widget.TextView
 
 class TeacherAdapter(private val teachers: List<Teacher>, private val onProjectClick: (Teacher) -> Unit)
     : RecyclerView.Adapter<TeacherAdapter.ProjectViewHolder>() {
