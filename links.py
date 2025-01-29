@@ -10,21 +10,21 @@ links = {
                    "physics" : "https://iittp.ac.in/physics-department",
                    "project_positions" : "https://www.iittp.ac.in/Project_Positions",
                    },
-        # "iitm": {"cse": "https://www.cse.iitm.ac.in/listpeople.php?arg=MSQw",
-        #              "ee": "https://www.ee.iitm.ac.in/people/faculty",
-        #              "chemical" : "https://chem.iitm.ac.in/faculty",
-        #              "chemistry" : "https://chemistry.iitm.ac.in/faculty",
-        #              "civil" : "https://civil.iitm.ac.in/people/faculty",
-        #              "hss" : "https://hss.iitm.ac.in/people/faculty",
-        #              "maths" : "https://maths.iitm.ac.in/people/faculty",
-        #              "mechanical" : "https://mech.iitm.ac.in/people/faculty",
-        #              "physics" : "https://physics.iitm.ac.in/people/faculty",
-        #              "project_positions" : "https://careers.icsr.in/,"
-        #              },
+        "iitm": {"cse": "https://www.cse.iitm.ac.in/listpeople.php?arg=MSQw",
+                     "ee": "https://www.ee.iitm.ac.in/people/faculty",
+                     "chemical" : "https://chem.iitm.ac.in/faculty",
+                     "chemistry" : "https://chemistry.iitm.ac.in/faculty",
+                     "civil" : "https://civil.iitm.ac.in/people/faculty",
+                     "hss" : "https://hss.iitm.ac.in/people/faculty",
+                     "maths" : "https://maths.iitm.ac.in/people/faculty",
+                     "mechanical" : "https://mech.iitm.ac.in/people/faculty",
+                     "physics" : "https://physics.iitm.ac.in/people/faculty",
+                     "project_positions" : "https://careers.icsr.in/,"
+                     },
         
-        # "iitb": {"cse": "https://www.cse.iitb.ac.in/people/faculty",
-        #          "ee": "https://www.ee.iitb.ac.in/web/people_categories/faculty/",
-        #          "aero" : "https://www.aero.iitb.ac.in/home/people/faculty",
+        "iitb": {"cse": "https://www.cse.iitb.ac.in/people/faculty",
+                 "ee": "https://www.ee.iitb.ac.in/web/people_categories/faculty/",
+                 "aero" : "https://www.aero.iitb.ac.in/home/people/faculty",
                  
                  
                  
