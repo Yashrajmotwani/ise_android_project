@@ -28,7 +28,7 @@ links = {
                  
                  
                  
-        #          }
+                 },
         "iitkgp": { "cse": "https://cse.iitkgp.ac.in/?faculty.html",
                    "ee": "https://ee.iitkgp.ac.in/people",
                    "ec": "http://www.ecdept.iitkgp.ac.in/Eece/faculty",
@@ -49,13 +49,6 @@ links = {
                   "physics" : "https://physics.iitm.ac.in/faculty.php",
                   
                   },
-        # "iitg" : { "physics" : "https://www.iitg.ac.in/phy/faculty.php",
-        #           "dsai" : "https://www.iitg.ac.in/dsai/dsai_core_faculty.html",
-        #           "design" : "https://www.iitg.ac.in/design/Faculty.html?CurFaculty",
-        #           "ee" : "https://www.iitg.ac.in/eee/faculty.php",
-        #           "mechanical" : "https://www.iitg.ac.in/mech/faculty/",
-        #           "project_positions" : "https://iitgn.ac.in/careers/staff",
-        #     },
         "iitr" : { "mechanical" : "https://iitr.ac.in/Departments/Mechanical%20and%20Industrial%20Engineering%20Department/People/Faculty/index.html",
                   "civil": "https://civil.iitr.ac.in/faculty",
                   "chemical": "https://iitr.ac.in/Departments/Chemical%20Engineering%20Department/People/Faculty/index.html",
@@ -89,7 +82,5 @@ links = {
                   "biotech" : "https://biotech.iith.ac.in/pages/peoplePages/faculty.html",
                   
             
-                    }
-        
-        
+                    },
         }
