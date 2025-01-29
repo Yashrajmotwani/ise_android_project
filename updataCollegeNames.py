@@ -3,7 +3,8 @@ from pymongo import MongoClient # type: ignore
 # Connect to MongoDB
 client = MongoClient("mongodb+srv://iseiittpdev2025:79exGUcy50QqTN15@cluster0.x64u9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["IITDB"]  # database name
-collection = db["IITFaculty"]  # collection name
+# collection = db["IITFaculty"]  # collection name
+collection = db["IITProjects"]  # collection name
 
 # Mapping of old values to new values
 updates = {
