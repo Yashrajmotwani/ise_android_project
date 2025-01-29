@@ -1,114 +1,81 @@
-from flask import Flask, jsonify, request # type: ignore
-# from scapeStaticFromIIT import scrape_website
-from scrapeDynamicFromIIT import scrape_website, scrape_website_allInfo
-from pymongo import MongoClient # type: ignore
+from flask import Flask, jsonify, request  # type: ignore # Import necessary Flask modules
+from scrapeDynamicFromIIT import scrape_website, scrape_website_allInfo  # Import scraping functions
+from pymongo import MongoClient  # type: ignore # Import MongoDB client
 
+# Initialize Flask application
 app = Flask(__name__)
 
-# @app.route("/api/data", methods=["GET"])
-# def get_data():
-#     # Call the scraper
-#     data = scrape_website()
-#     print(data)
-#     if "error" in data:
-#         return jsonify(data), 500  # Return error response if scraping fails
-#     return jsonify(data)  # Return scraped data as JSON
+# Set up MongoDB connection
+client = MongoClient("mongodb+srv://iseiittpdev2025:79exGUcy50QqTN15@cluster0.x64u9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # MongoDB URI
 
-
-client = MongoClient("mongodb+srv://iseiittpdev2025:79exGUcy50QqTN15@cluster0.x64u9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # Adjust the connection URI as needed
-db = client["IITDB"]  # Replace with your database name
-collectionFT = db["IITFaculty"]   # Replace with your collection name
-collectionPRJ = db["IITProjects"]   # Replace with your collection name
-
+db = client["IITDB"]  # Connect to database IITDB
+collectionFT = db["IITFaculty"]   # Collection for faculty data
+collectionPRJ = db["IITProjects"]  # Collection for project data
 
 @app.route("/")
 def index():
-    # print(f"Request received from: {request.remote_addr}")
+    """Default route to check if the server is running."""
     return "Hello, World!"
 
 @app.route("/daata", methods=["GET"])
 def get_all_data():
+    """Fetch all faculty data from the database. If no data exists, scrape and store it."""
     existing_data = collectionFT.find_one()
-    if existing_data:
-        print("The collection has at least one document.")
-        # Fetch all documents from the collection
+    
+    if existing_data:  # If the collection has data, return it
         all_documents = list(collectionFT.find())
-        print("All documents in the collection:", all_documents)
-        
-        # return documents
-         # Return the documents or use them as needed
         for doc in all_documents:
             if "_id" in doc:
-                doc["_id"] = str(doc["_id"])
+                doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
         return jsonify(all_documents)
-        
-
-    data = scrape_website_allInfo()
-    # print(data)
-    if "error" in data:
-        return jsonify(data), 400  # Return error response if scraping fails
     
-    collectionFT.insert_many(data)
+    # If no data, scrape and store it
+    data = scrape_website_allInfo()
+    if "error" in data:
+        return jsonify(data), 400  # Return error if scraping fails
+    
+    collectionFT.insert_many(data)  # Store scraped data
     for doc in data:
-            if "_id" in doc:
-                doc["_id"] = str(doc["_id"])
-    return jsonify(data)    # Return scraped data as JSON
-
-
-# Set up MongoDB connection
-
-
+        if "_id" in doc:
+            doc["_id"] = str(doc["_id"])
+    return jsonify(data)
 
 @app.route("/getlive/<college>/<department>/", methods=["GET"])
 @app.route("/<college>/<department>/", methods=["GET"])
 def get_data(college, department):
-    # Call the scraper
-    print("calling \n\n\n")
-    collection = None
-    if department == "project_positions":
-        collection = collectionPRJ
-    else:
-        collection = collectionFT
+    """Fetch data from database. If 'getlive' is in the URL, scrape fresh data."""
+    print("Calling scraper...\n\n\n")
     
-    if "getlive" in request.path:
+    # Determine which collection to use based on department
+    collection = collectionPRJ if department == "project_positions" else collectionFT
+    
+    if "getlive" in request.path:  # If 'getlive' is in URL, scrape fresh data
         data = scrape_website(college, department)
-    
-        print(data, "\n\n\n\n")
-        
+        print("hello ", data)
         if "error" in data:
-            return jsonify(data), 400  # Return error response if scraping fails
-        
+            return jsonify(data), 400  # Return error if scraping fails
         return jsonify(data)
     
-    
-    
+    # Fetch existing data from the database
     existing_data = collection.find_one()
-    
     if existing_data:
-        print("The collection has at least one document.")
-    # Fetch all documents from the collection
         all_documents = list(collection.find())
-        print("All documents in the collection:", all_documents)
         for doc in all_documents:
             if "_id" in doc:
-                doc["_id"] = str(doc["_id"])
-         # Return the documents or use them as needed
+                doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
         return jsonify(all_documents)
-
-
+    
+    # If no data, scrape and store it
+    data = scrape_website(college, department)
     collection.insert_many(data)
-    # print(data)
     for doc in data:
-            if "_id" in doc:
-                doc["_id"] = str(doc["_id"])
-    print("data   ", data)
-    return jsonify(data)    # Return scraped data as JSON
-
-
-
-
+        if "_id" in doc:
+            doc["_id"] = str(doc["_id"])
+    return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(host= "0.0.0.0", port = 5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)  # Start Flask server
 
-# api # http://127.0.0.1:5000/api/data
+# API Endpoints:
+# http://127.0.0.1:5000/getlive/<college>/<department>/  -> Fetch live scraped data
+# http://127.0.0.1:5000/<college>/<department>/         -> Fetch cached data from MongoDB

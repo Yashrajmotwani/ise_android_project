@@ -10,7 +10,7 @@ def register_function(name):
     return wrapper
 
     
-    
+# Function to scrape IIT Tirupati's website
 @register_function("iittp")
 def scrape_iittp(college, department, url, driver):
     # Open the target URL
@@ -89,7 +89,7 @@ def scrape_iittp(college, department, url, driver):
     #         doc["_id"] = str(doc["_id"])
     return extracted_data
 
-
+# Function to scrape IIT Gandhi Nagar's website
 @register_function("iitg")
 def scrape_iittp(college, department, url, driver):
     
@@ -193,7 +193,7 @@ def scrape_iittp(college, department, url, driver):
     return extracted_data
     
     
-        
+# Function to scrape IIT Kanpur's website      
 @register_function("iitk")
 def scrape_iitk(college, department, url, driver):
     driver.get(url)
@@ -242,7 +242,7 @@ def scrape_iitk(college, department, url, driver):
     return extracted_data
     
 
-    
+# Function to call the appropriate scraping function dynamically 
 def call_function_based_on_college(college, department, url, driver):
     if college in function_registry:
         try:
