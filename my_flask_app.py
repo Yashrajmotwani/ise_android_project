@@ -91,6 +91,7 @@ def get_data(college, department):
         return jsonify(data), 400  # Return error response if scraping fails
 
     collection.insert_many(data)
+    print(data)
     for doc in data:
             if "_id" in doc:
                 doc["_id"] = str(doc["_id"])

@@ -32,12 +32,14 @@ links = {
         "iitkgp": { "cse": "https://cse.iitkgp.ac.in/?faculty.html",
                    "ee": "https://ee.iitkgp.ac.in/people",
                    "ec": "http://www.ecdept.iitkgp.ac.in/Eece/faculty",
+                   "project_positions" : "https://erp.iitkgp.ac.in/SricWeb/temporaryJobs.htm",
                    
                    
             
                   },
-        "iitk" : { "chemical" : "https://www.iitk.ac.in/che/faculty.html"
+        "iitk" : { "chemical" : "https://www.iitk.ac.in/che/faculty.html",
                     # "mechanical" : "https://www.iitk.ac.in/me/people/faculty",
+                    "project_positions" : "https://www.iitk.ac.in/dord/scientific-and-research-staff",
                     
                  },
         
