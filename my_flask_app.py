@@ -1,4 +1,4 @@
-from flask import Flask, jsonify # type: ignore
+from flask import Flask, jsonify, request # type: ignore
 # from scapeStaticFromIIT import scrape_website
 from scrapeDynamicFromIIT import scrape_website, scrape_website_allInfo
 from pymongo import MongoClient # type: ignore
@@ -59,7 +59,8 @@ def get_all_data():
 
 
 
-@app.route("/<college>/<department>", methods=["GET"])
+@app.route("/getlive/<college>/<department>/", methods=["GET"])
+@app.route("/<college>/<department>/", methods=["GET"])
 def get_data(college, department):
     # Call the scraper
     print("calling \n\n\n")
@@ -69,29 +70,34 @@ def get_data(college, department):
     else:
         collection = collectionFT
     
-    # existing_data = collection.find_one()
+    if "getlive" in request.path:
+        data = scrape_website(college, department)
     
-    # if existing_data:
-    #     print("The collection has at least one document.")
-    # # Fetch all documents from the collection
-    #     all_documents = list(collection.find())
-    #     print("All documents in the collection:", all_documents)
-    #     for doc in all_documents:
-    #         if "_id" in doc:
-    #             doc["_id"] = str(doc["_id"])
-    #      # Return the documents or use them as needed
-    #     return jsonify(all_documents)
-    
-    data = scrape_website(college, department)
-    
-    print(data, "\n\n\n\n")
+        print(data, "\n\n\n\n")
+        
+        if "error" in data:
+            return jsonify(data), 400  # Return error response if scraping fails
+        
+        return jsonify(data)
     
     
-    if "error" in data:
-        return jsonify(data), 400  # Return error response if scraping fails
+    
+    existing_data = collection.find_one()
+    
+    if existing_data:
+        print("The collection has at least one document.")
+    # Fetch all documents from the collection
+        all_documents = list(collection.find())
+        print("All documents in the collection:", all_documents)
+        for doc in all_documents:
+            if "_id" in doc:
+                doc["_id"] = str(doc["_id"])
+         # Return the documents or use them as needed
+        return jsonify(all_documents)
+
 
     collection.insert_many(data)
-    print(data)
+    # print(data)
     for doc in data:
             if "_id" in doc:
                 doc["_id"] = str(doc["_id"])

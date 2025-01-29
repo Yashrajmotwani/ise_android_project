@@ -1,5 +1,5 @@
-import requests
-import certifi
+import requests # type: ignore
+import certifi # type: ignore
 import urllib3 # type: ignore
 from bs4 import BeautifulSoup
 
