@@ -14,8 +14,8 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((err) => console.error('Error connecting to MongoDB Atlas:', err));
 
-// Define a schema for your database (use one of your collections as an example)
-const sampleSchema = new mongoose.Schema({
+// Define the project schema
+const projectSchema = new mongoose.Schema({
   name_of_post: String, // "Research Associate (RA-I)"
   discipline: String, // "Materials Engineering"
   posting_date: String, // "24.01.2025"
@@ -43,16 +43,22 @@ const teacherSchema = new mongoose.Schema({
   collection: 'IITFaculty' // Explicitly specify the collection name
 });
 
-const SampleModel = mongoose.model('IITProjects', sampleSchema); 
-const TeacherModel = mongoose.model('IITFaculty', teacherSchema); 
+// Models
+const SampleModel = mongoose.model('IITProjects', projectSchema);
+const TeacherModel = mongoose.model('IITFaculty', teacherSchema);
 
+// Define the User schema to store user's favorite projects
+const userSchema = new mongoose.Schema({
+  userId: String, // User ID
+  favoriteProjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'IITProjects' }] // Array of references to the projects
+});
 
-// Define a search API route
+const User = mongoose.model('User', userSchema);
+
+// Define a search API route for projects
 app.get('/search', async (req, res) => {
-  const query = req.query.query; // Search query parameter
-  console.log(query)
+  const query = req.query.query;
   try {
-
     const results = await SampleModel.find({
       $or: [
         { name_of_post: new RegExp(query, 'i') },
@@ -65,24 +71,20 @@ app.get('/search', async (req, res) => {
       ]
     });
     
-    console.log(results);
-
     if (results.length === 0) {
       return res.status(404).json({ message: 'No matching records found.' });
     }
-
+    console.log(results)
     res.json(results);
   } catch (err) {
-    console.error('Error fetching data:', err); // Log the error if any
     res.status(500).json({ message: 'Error fetching data from MongoDB', error: err });
   }
 });
 
+// Define a search API route for faculty
 app.get('/fsearch', async (req, res) => {
-  const query = req.query.query; // Search query parameter
-  console.log(query)
+  const query = req.query.query;
   try {
-
     const results = await TeacherModel.find({
       $or: [
         { areas_of_interest: new RegExp(query, 'i') },
@@ -93,8 +95,6 @@ app.get('/fsearch', async (req, res) => {
         { department: new RegExp(query, 'i') }
       ]
     });
-    
-    console.log(results);
 
     if (results.length === 0) {
       return res.status(404).json({ message: 'No matching records found.' });
@@ -102,13 +102,89 @@ app.get('/fsearch', async (req, res) => {
 
     res.json(results);
   } catch (err) {
-    console.error('Error fetching data:', err); // Log the error if any
     res.status(500).json({ message: 'Error fetching data from MongoDB', error: err });
   }
 });
 
+// Save project to user's favorites
+app.post('/saveProject/:userId', async (req, res) => {
+  const { userId} = req.params;
+  const projectData = req.body;
+
+  try {
+    // Find the project by ID
+    const project = await SampleModel.findById(projectData._id);
+    if (!project) {
+      
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    // Find the user
+    let user = await User.findOne({ userId });
+
+    if (!user) {
+      // Create a new user if the user does not exist
+      user = new User({ userId, favoriteProjects: [projectData._id] });
+      await user.save();
+    } else {
+      // Add the project to the user's favorites
+      if (!user.favoriteProjects.includes(projectData._id)) {
+        user.favoriteProjects.push(projectData._id);
+        await user.save();
+      }
+    }
+
+    res.status(200).json({ message: 'Project saved successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error saving project', error: err });
+  }
+});
+
+// Remove project from user's favorites
+app.delete('/removeProject/:userId/:projectId', async (req, res) => {
+  const { userId, projectId} = req.params;
+
+  try {
+    // Find the user
+    const user = await User.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Remove the project from the user's favorites
+    const index = user.favoriteProjects.indexOf(projectId);
+    if (index === -1) {
+      return res.status(404).json({ message: 'Project not found in favorites' });
+    }
+
+    user.favoriteProjects.splice(index, 1); // Remove the project from the array
+    await user.save();
+
+    res.status(200).json({ message: 'Project removed from favorites' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error removing project', error: err });
+  }
+});
+
+// Get user's favorite projects
+app.get('/getFavoriteProjects/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Find the user and populate the favorite projects with full details
+    const user = await User.findOne({ userId }).populate('favoriteProjects');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Send the populated favorite projects
+    res.status(200).json(user.favoriteProjects);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching favorite projects', error: err });
+  }
+});
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${port}`);
 });
