@@ -5,5 +5,6 @@
         <domain includeSubdomains="true">10.0.2.2</domain> <!-- For Emulator -->
         <domain includeSubdomains="true">192.168.1.10</domain> <!-- If using physical device -->
         <domain includeSubdomains="true">10.25.90.228</domain>
+        <domain includeSubdomains="true">10.25.82.176</domain>
     </domain-config>
 </network-security-config>
