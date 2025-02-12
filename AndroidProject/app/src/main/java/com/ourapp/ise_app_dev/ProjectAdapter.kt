@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ourapp.ise_app_dev.databinding.ItemProjectBinding
 
-class ProjectAdapter(private val projects: List<Project>, private val onProjectClick: (Project) -> Unit) :
+class ProjectAdapter(
+    private val projects: List<Project>,
+    private val onProjectClick: (Project) -> Unit) :
     RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {

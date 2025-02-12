@@ -9,6 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _searchResults = MutableLiveData<List<Project>>()
@@ -32,4 +33,5 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             }
         })
     }
+
 }

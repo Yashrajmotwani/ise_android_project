@@ -1,6 +1,7 @@
 package com.ourapp.ise_app_dev
 
 data class Project(
+    val _id: String,
     val name_of_post: String,
     val discipline: String,
     val posting_date: String,
@@ -9,5 +10,6 @@ data class Project(
     val advertisement_link: String,
     val status: String,
     val college: String,
-    val department: String
+    val department: String,
+    var isSaved: Boolean = false
 )
