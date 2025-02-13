@@ -19,6 +19,8 @@ import com.ourapp.ise_app_dev.databinding.FragmentSearchBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class SearchFragment : Fragment() {
@@ -72,11 +74,32 @@ class SearchFragment : Fragment() {
             }
             .create()
 
+        // Check if discipline, pi_name is empty and set it to "NA" if so
+        val discipline = if (project.discipline.isNullOrEmpty()) "NA" else project.discipline
+        val pi_name = if (project.pi_name.isNullOrEmpty()) "NA" else project.pi_name
+
+        var status = project.status ?: "" // Safe call to handle null
+        if (status.isNullOrEmpty() || (status != "Open" && status != "Closed")) {
+            // Convert the last_date string to a timestamp for comparison
+            val lastDate = project.last_date?.let { parseDate(it) } ?: 0L // Safe call for null last_date
+
+            // Get the current date's timestamp
+            val currentDate = System.currentTimeMillis() // Current timestamp
+
+            // Compare last date with current date to determine status
+            status = if (lastDate > currentDate) {
+                "Closed" // If last date is in the future, status is "Closed"
+            } else {
+                "Open" // If last date is in the past or equal to current date, status is "Open"
+            }
+        }
+
+
         // Set the full details of the project in the dialog
         dialogView.findViewById<TextView>(R.id.projectName).text = "Project Name: ${project.name_of_post}"
-        dialogView.findViewById<TextView>(R.id.pi_name).text = "PI Name: ${project.pi_name}"
-        dialogView.findViewById<TextView>(R.id.projectStatus).text = "Status: ${project.status}"
-        dialogView.findViewById<TextView>(R.id.projectDiscipline).text = "Discipline: ${project.discipline}"
+        dialogView.findViewById<TextView>(R.id.pi_name).text = "PI Name: ${pi_name}"
+        dialogView.findViewById<TextView>(R.id.projectStatus).text = "Status: ${status}"
+        dialogView.findViewById<TextView>(R.id.projectDiscipline).text = "Discipline: ${discipline}"
         dialogView.findViewById<TextView>(R.id.projectDate).text = "Posting Date: ${project.posting_date}"
         dialogView.findViewById<TextView>(R.id.lastDate).text = "Last Date: ${project.last_date}"
         dialogView.findViewById<TextView>(R.id.college).text = "College: ${project.college}"
@@ -125,7 +148,7 @@ class SearchFragment : Fragment() {
                             Toast.makeText(context, "Project Removed!", Toast.LENGTH_SHORT).show()
                             alertDialog.dismiss()
                         } else {
-                            Toast.makeText(context, "Failed to remove project", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Project not Saved!", Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -137,6 +160,36 @@ class SearchFragment : Fragment() {
         }
 
         alertDialog.show()
+    }
+
+    private fun parseDate(dateString: String): Long {
+        // List of possible date formats to try
+        val formats = listOf(
+            "dd.MM.yyyy",  // Example: 11.02.2025
+            "yyyy-MM-dd",  // Example: 2025-02-11
+            "MM/dd/yyyy",  // Example: 02/11/2025
+            "yyyy/MM/dd",  // Example: 2025/02/11
+            "dd/MM/yyyy",  // Example: 11/02/2025
+            "MMMM d, yyyy", // Example: February 11, 2025
+            "d MMMM, yyyy"  // Example: 11 February, 2025
+        )
+
+        val locale = Locale.getDefault()
+
+        // Try to parse the date with each format in the list
+        for (format in formats) {
+            val formatter = SimpleDateFormat(format, locale)
+            try {
+                val date = formatter.parse(dateString)
+                if (date != null) {
+                    return date.time // Return the time in milliseconds
+                }
+            } catch (e: Exception) {
+                // If parsing fails, continue with the next format
+            }
+        }
+
+        return 0L // Return 0 if no format works
     }
 
 }
