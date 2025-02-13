@@ -26,9 +26,13 @@ class FavoriteAdapter(
 
     inner class FavoriteViewHolder(private val binding: ItemProjectBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(project: Project) {
+
+            // Check if project.discipline is empty and set it to "NA" if so
+            val discipline = if (project.discipline.isNullOrEmpty()) "NA" else project.discipline
+
             // Set the project data in the views
             binding.projectTitle.text = project.name_of_post
-            binding.discipline.text = project.discipline
+            binding.discipline.text = "Discipline: ${discipline}"
             binding.lastDate.text = "Last Date: ${project.last_date}"
             binding.college.text = "College: ${project.college}"
 
