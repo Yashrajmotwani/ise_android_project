@@ -1,4 +1,4 @@
-# IIT Faculty & Projects Scraper
+# IIT Faculty & Project Positions Scraper
 
 This part of project is a web scraping application built using Flask, Selenium, and MongoDB to collect faculty and project position data from various IIT websites. It provides an API to fetch live data or retrieve stored data from MongoDB.
 
@@ -39,22 +39,27 @@ pip install -r requirements.txt
 
 ## 📂 Project Root
 
-|── 📄 my_flask_app.py                  # Main API server (Flask)\
+|── 📄 my_flask_app.py                  # Main API server (Flask)
 
-│── 📄 scrapeDynamicFromIIT.py # Main scraper controller\
+│── 📄 scrapeDynamicFromIIT.py  # Main scraper controller\
 │── 📄 chooseScrapper.py       # Dispatcher to call correct scraper\
-│── 📄 links.py                # Stores URLs of IIT departments\
+<!-- │── 📄 links.py                # Stores URLs of IIT departments\ -->
 │── 📄 requirements.txt        # Dependencies list\
 │── 📄 README.md               # Project documentation\
-|── 📄 chooseScrapper.py       # chooses the corresponding scrapper\
+<!-- |── 📄 chooseScrapper.py       # chooses the corresponding scrapper\ -->
 │── 📄 Dockerfile               # Docker file for hosting 
-<!-- │── 📂 scrapers/               # Directory for specific IIT scrapers\
-│   ├── 📄 scrape_iittp.py      # Scraper for IIT Tirupati\
-│   ├── 📄 scrape_iitg.py       # Scraper for IIT Gandhinagar\
-│   ├── 📄 scrape_iitk.py       # Scraper for IIT Kanpur\
-│── 📂 data/                   # Directory to store scraped data (if needed)\
+│── 📂 ScrapeIITs               # Directory for specific IIT scrapers\
+│   ├── 📄 scrape_iit_bombay.py      # Scraper for IIT Tirupati\
+│   ├── 📄 scrape_iit_gandhinagar.py       # Scraper for IIT Gandhinagar\
+│   ├── 📄 scrape_iit_kanpur.py       # Scraper for IIT Kanpur\
+│   ├── 📄 scrape_iit_hyderabad.py       # Scraper for IIT Hyderabad\
+│   ├── 📄 scrape_iit_kanpur.py       # Scraper for IIT Kanpur\
+│   ├── 📄 scrape_iit_tirupati.py       # Scraper for IIT Tirupati
+│   ├── 📄 chooseScrapper.py       # Selects which script to run based on request/
+│   ├── 📄 links.py       # Stores the IIT Faculty links department wise/
+<!-- │── 📂 data/                   # Directory to store scraped data (if needed)\
 │── 📂 tests/                  # Directory for test scripts\ -->
-Update MongoDB URI in `app.py` with your credentials.
+Update MongoDB URI in `links.py` with your credentials.
 
 Run the Flask application:
 
