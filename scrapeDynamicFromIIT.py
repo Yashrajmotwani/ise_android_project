@@ -1,11 +1,11 @@
 import re
-from chooseScrapper import call_function_based_on_college
+from ScrapeIITs.chooseScrapper import call_function_based_on_college
 from selenium import webdriver  # type: ignore # Selenium WebDriver for browser automation
 from selenium.webdriver.common.by import By   # type: ignore
 from selenium.webdriver.chrome.service import Service  # type: ignore
 from selenium.webdriver.chrome.options import Options  # type: ignore
 from webdriver_manager.chrome import ChromeDriverManager # type: ignore # To automatically manage ChromeDriver
-from links import links  # Import a dictionary containing URLs for different colleges and departments
+from ScrapeIITs.links import links  # Import a dictionary containing URLs for different colleges and departments
 
 def scrape_website(college, department):    
     """

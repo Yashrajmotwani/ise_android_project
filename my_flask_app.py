@@ -1,12 +1,13 @@
 from flask import Flask, jsonify, request  # type: ignore # Import necessary Flask modules
 from scrapeDynamicFromIIT import scrape_website, scrape_website_allInfo  # Import scraping functions
 from pymongo import MongoClient  # type: ignore # Import MongoDB client
+from ScrapeIITs.links import links  # Import a dictionary containing URLs for different colleges and departments
 
 # Initialize Flask application
 app = Flask(__name__)
 
 # Set up MongoDB connection
-client = MongoClient("mongodb+srv://iseiittpdev2025:79exGUcy50QqTN15@cluster0.x64u9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # MongoDB URI
+client = MongoClient(links["mongoDBLink"]["mongoDBAtlas"])  # MongoDB URI
 
 db = client["IITDB"]  # Connect to database IITDB
 collectionFT = db["IITFaculty"]   # Collection for faculty data
@@ -57,13 +58,13 @@ def get_data(college, department):
         return jsonify(data)
     
     # Fetch existing data from the database
-    existing_data = collection.find_one()
-    if existing_data:
-        all_documents = list(collection.find())
-        for doc in all_documents:
-            if "_id" in doc:
-                doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
-        return jsonify(all_documents)
+    # existing_data = collection.find_one()
+    # if existing_data:
+    #     all_documents = list(collection.find())
+    #     for doc in all_documents:
+    #         if "_id" in doc:
+    #             doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
+    #     return jsonify(all_documents)
     
     # If no data, scrape and store it
     data = scrape_website(college, department)
