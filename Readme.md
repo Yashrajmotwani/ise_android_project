@@ -39,24 +39,24 @@ pip install -r requirements.txt
 
 ## 📂 Project Root
 
-|── 📄 my_flask_app.py                  # Main API server (Flask)
+|── 📄 my_flask_app.py      &nbsp; &nbsp;           # Main API server (Flask)
 
-│── 📄 scrapeDynamicFromIIT.py  # Main scraper controller\
-│── 📄 chooseScrapper.py       # Dispatcher to call correct scraper\
+│── 📄 scrapeDynamicFromIIT.py &nbsp; &nbsp;  # Main scraper controller\
+│── 📄 chooseScrapper.py  &nbsp; &nbsp;      # Dispatcher to call correct scraper\
 <!-- │── 📄 links.py                # Stores URLs of IIT departments\ -->
-│── 📄 requirements.txt        # Dependencies list\
-│── 📄 README.md               # Project documentation\
+│── 📄 requirements.txt  &nbsp; &nbsp;       # Dependencies list\
+│── 📄 README.md         &nbsp; &nbsp;       # Project documentation\
 <!-- |── 📄 chooseScrapper.py       # chooses the corresponding scrapper\ -->
-│── 📄 Dockerfile               # Docker file for hosting 
-│── 📂 ScrapeIITs               # Directory for specific IIT scrapers\
-│   ├── 📄 scrape_iit_bombay.py      # Scraper for IIT Tirupati\
-│   ├── 📄 scrape_iit_gandhinagar.py       # Scraper for IIT Gandhinagar\
-│   ├── 📄 scrape_iit_kanpur.py       # Scraper for IIT Kanpur\
-│   ├── 📄 scrape_iit_hyderabad.py       # Scraper for IIT Hyderabad\
-│   ├── 📄 scrape_iit_kanpur.py       # Scraper for IIT Kanpur\
-│   ├── 📄 scrape_iit_tirupati.py       # Scraper for IIT Tirupati
-│   ├── 📄 chooseScrapper.py       # Selects which script to run based on request/
-│   ├── 📄 links.py       # Stores the IIT Faculty links department wise/
+│── 📄 Dockerfile      &nbsp; &nbsp;          # Docker file for hosting 
+│── 📂 ScrapeIITs   &nbsp; &nbsp;             # Directory for specific IIT scrapers\
+│   ├── 📄 scrape_iit_bombay.py   &nbsp; &nbsp;    # Scraper for IIT Tirupati\
+│   ├── 📄 scrape_iit_gandhinagar.py  &nbsp; &nbsp;      # Scraper for IIT Gandhinagar\
+│   ├── 📄 scrape_iit_kanpur.py    &nbsp; &nbsp;    # Scraper for IIT Kanpur\
+│   ├── 📄 scrape_iit_hyderabad.py &nbsp; &nbsp;       # Scraper for IIT Hyderabad\
+│   ├── 📄 scrape_iit_kanpur.py   &nbsp; &nbsp;     # Scraper for IIT Kanpur\
+│   ├── 📄 scrape_iit_tirupati.py &nbsp; &nbsp;       # Scraper for IIT Tirupati
+│   ├── 📄 chooseScrapper.py  &nbsp; &nbsp;      # Selects which script to run based on request/
+│   ├── 📄 links.py   &nbsp; &nbsp;     # Stores the IIT Faculty links department wise/
 <!-- │── 📂 data/                   # Directory to store scraped data (if needed)\
 │── 📂 tests/                  # Directory for test scripts\ -->
 Update MongoDB URI in `links.py` with your credentials.
