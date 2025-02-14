@@ -58,13 +58,13 @@ def get_data(college, department):
         return jsonify(data)
     
     # Fetch existing data from the database
-    # existing_data = collection.find_one()
-    # if existing_data:
-    #     all_documents = list(collection.find())
-    #     for doc in all_documents:
-    #         if "_id" in doc:
-    #             doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
-    #     return jsonify(all_documents)
+    existing_data = collection.find_one()
+    if existing_data:
+        all_documents = list(collection.find())
+        for doc in all_documents:
+            if "_id" in doc:
+                doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
+        return jsonify(all_documents)
     
     # If no data, scrape and store it
     data = scrape_website(college, department)
