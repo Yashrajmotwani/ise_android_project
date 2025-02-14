@@ -8,7 +8,7 @@
 
     <!-- Use FragmentContainerView instead of the <fragment> tag -->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/map"
+        android:id="@+id/mapView"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"

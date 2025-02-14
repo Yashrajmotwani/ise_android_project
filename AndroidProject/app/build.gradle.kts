@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.glide)
     implementation(libs.firebase.auth)
+    implementation(libs.play.services.location)
     kapt(libs.glideCompiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

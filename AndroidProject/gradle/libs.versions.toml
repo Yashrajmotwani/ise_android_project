@@ -18,6 +18,7 @@ google-play-services = "19.0.0"
 glide = "4.14.2"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
+playServicesLocation = "21.3.0"
 
 
 [libraries]
@@ -47,6 +48,7 @@ glideCompiler = { module = "com.github.bumptech.glide:compiler", version.ref = "
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 androidx-compose-ui = "androidx.compose.ui:ui:{versions.compose}"
 androidx-compose-material = "androidx.compose.material:material:{versions.compose}"
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 
 [plugins]
