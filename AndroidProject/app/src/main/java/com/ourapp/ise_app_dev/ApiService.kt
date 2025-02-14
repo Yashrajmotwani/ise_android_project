@@ -41,4 +41,7 @@ interface ApiService {
         @Path("userId") userId: String
     ): Call<List<Project>>
 
+    @GET("colleges")
+    fun getColleges(): Call<List<College>>
+
 }

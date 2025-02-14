@@ -16,6 +16,7 @@
         <TextView
             android:id="@+id/projectTitle"
             android:text="Project Name: "
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"

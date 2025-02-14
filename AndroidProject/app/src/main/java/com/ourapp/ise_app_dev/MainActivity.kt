@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
+    private var backPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,10 +92,42 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // Override onBackPressed to handle back button logic
+    override fun onBackPressed() {
+        // Get the current fragment from the fragment container
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (currentFragment is SearchFragment) {
+            if (backPressedOnce) {
+                // If the user presses back again within the time window, exit the app
+                super.onBackPressed()
+            } else {
+                // First back press - show a toast message and set the flag
+                backPressedOnce = true
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+                // Reset the flag after 2 seconds
+                Handler(Looper.getMainLooper()).postDelayed({
+                    backPressedOnce = false
+                }, 2000)  // 2000ms = 2 seconds
+            }
+        } else {
+            // If the current fragment is not SearchFragment, replace it with SearchFragment
+            val searchFragment = SearchFragment()
+            replaceFragment(searchFragment) // This will replace the current fragment with SearchFragment
+            // Update the bottom navigation view to highlight the "Projects" item
+            bottomNavigationView.selectedItemId = R.id.nav_positions
+        }
+    }
+
+
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
+        // Add to back stack if it's not the SearchFragment
+        if (fragment !is SearchFragment) {
+            transaction.addToBackStack(null)
+        }
         transaction.commit()
     }
 
