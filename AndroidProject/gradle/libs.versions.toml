@@ -15,10 +15,9 @@ constraintlayout = "2.2.0"
 recyclerview = "1.2.1"
 cardview = "1.0.0"
 google-play-services = "19.0.0"
-glide = "4.12.0"
+glide = "4.14.2"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
-firebaseCrashlyticsBuildtools = "3.0.2"
 
 
 [libraries]

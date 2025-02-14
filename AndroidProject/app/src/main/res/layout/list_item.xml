@@ -23,6 +23,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/baseline_college_icon"
+            android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:contentDescription="College Logo"/>
@@ -43,10 +44,10 @@
 
         <!-- NIRF Rank -->
         <TextView
-            android:id="@+id/nirfRank"
+            android:id="@+id/founded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NIRF Rank: 1"
+            android:text="Founded: 2000"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/collegeName"
@@ -62,7 +63,31 @@
             android:text="State: Maharashtra"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/nirfRank"
+            app:layout_constraintTop_toBottomOf="@id/founded"
+            app:layout_constraintStart_toEndOf="@id/collegeLogo"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"/>
+
+        <TextView
+            android:id="@+id/num_faculty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of Faculty: 100"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/state"
+            app:layout_constraintStart_toEndOf="@id/collegeLogo"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"/>
+
+        <TextView
+            android:id="@+id/num_students"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of Students: 100"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/num_faculty"
             app:layout_constraintStart_toEndOf="@id/collegeLogo"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"/>
