@@ -8,7 +8,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = 'mongodb+srv://iseiittpdev2025:79exGUcy50QqTN15@cluster0.x64u9.mongodb.net/IITDB?retryWrites=true&w=majority&appName=Cluster0';
+const uri = "mongodb+srv://iseiittpdev2025:8BU6VsHeEKsGpPQm@cluster0.x64u9.mongodb.net/IITDB?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
@@ -52,12 +52,38 @@ const userSchema = new mongoose.Schema({
   userId: String, // User ID
   favoriteProjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'IITProjects' }] // Array of references to the projects
 });
-
 const User = mongoose.model('User', userSchema);
+
+// Define the User schema to store user's favorite teachers
+const favteacherSchema = new mongoose.Schema({
+  userId: String, // User ID
+  favoriteTeacher: [{ type: mongoose.Schema.Types.ObjectId, ref: 'IITFaculty' }] // Array of references to the projects
+});
+const User_favorite = mongoose.model('Teachers', favteacherSchema);
+
+// Define the College schema
+const collegeSchema = new mongoose.Schema({
+  No: String,
+  Name: String,          // Name of the college, e.g., "IIT Bombay"
+  Abbreviation: String,  // College abbreviation, e.g., "IITB"
+  Founded: String,       // Year founded, e.g., "1958"
+  'Converted as IIT': String,
+  'State/UT': String,    // State where college is located, e.g., "Maharashtra"
+  website: String,       // Official website, e.g., "www.iitb.ac.in"
+  Faculty: String,       // Faculty count, e.g., "928"
+  Students: String,      // Number of students, e.g., "15,862"
+  Logo: String           // URL to the logo image, e.g., "https://example.com/logo.png"
+}, {
+  collection: 'iit_collegesnew' // collection name
+});
+const CollegeModel = mongoose.model('iit_collegesnew', collegeSchema);
 
 // Define a search API route for projects
 app.get('/search', async (req, res) => {
+
   const query = req.query.query;
+  console.log(query)
+
   try {
     const results = await SampleModel.find({
       $or: [
@@ -70,6 +96,8 @@ app.get('/search', async (req, res) => {
         { department: new RegExp(query, 'i') }
       ]
     });
+
+    console.log(results)
     
     if (results.length === 0) {
       return res.status(404).json({ message: 'No matching records found.' });
@@ -83,7 +111,9 @@ app.get('/search', async (req, res) => {
 
 // Define a search API route for faculty
 app.get('/fsearch', async (req, res) => {
+  
   const query = req.query.query;
+  
   try {
     const results = await TeacherModel.find({
       $or: [
@@ -181,6 +211,96 @@ app.get('/getFavoriteProjects/:userId', async (req, res) => {
     res.status(200).json(user.favoriteProjects);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching favorite projects', error: err });
+  }
+});
+
+// Save project to user's favorites
+app.post('/saveTeacher/:userId', async (req, res) => {
+  const { userId } = req.params;
+  const teacherData = req.body;
+
+  try {
+    // Find the project by ID
+    const project = await TeacherModel.findById(teacherData._id);
+    if (!project) {
+      
+      return res.status(404).json({ message: 'Teacher Details not found' });
+    }
+
+    // Find the user
+    let user = await User_favorite.findOne({ userId });
+
+    if (!user) {
+      // Create a new user if the user does not exist
+      user = new User_favorite({ userId, favoriteTeacher: [teacherData._id] });
+      await user.save();
+    } else {
+      // Add the teacher to the user's favorites
+      if (!user.favoriteTeacher.includes(teacherData._id)) {
+        user.favoriteTeacher.push(teacherData._id);
+        await user.save();
+      }
+    }
+
+    res.status(200).json({ message: 'Teacher saved successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error saving teacher details', error: err });
+  }
+});
+
+// Remove project from user's favorites
+app.delete('/removeTeacher/:userId/:teacherId', async (req, res) => {
+  const { userId, teacherId } = req.params;
+
+  try {
+    // Find the user
+    const user = await User_favorite.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Remove the project from the user's favorites
+    const index = user.favoriteTeacher.indexOf(teacherId);
+    if (index === -1) {
+      return res.status(404).json({ message: 'Teacher not found in favorites' });
+    }
+
+    user.favoriteTeacher.splice(index, 1); // Remove the teacher from the array
+    await user.save();
+
+    res.status(200).json({ message: 'Teacher removed from favorites' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error removing teacher', error: err });
+  }
+});
+
+// Get user's favorite projects
+app.get('/getFavoriteTeacher/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Find the user and populate the favorite projects with full details
+    const user = await User_favorite.findOne({ userId }).populate('favoriteTeacher');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Send the populated favorite projects
+    res.status(200).json(user.favoriteTeacher);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching favorite teachers', error: err });
+  }
+});
+
+// Define a search API route for colleges
+app.get('/colleges', async (req, res) => {
+  try {
+    const colleges = await CollegeModel.find();  // Fetch all colleges
+    console.log(colleges)
+
+    res.json(colleges);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching colleges', error: err });
   }
 });
 
