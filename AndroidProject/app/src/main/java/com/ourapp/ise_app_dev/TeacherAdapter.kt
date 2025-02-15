@@ -28,11 +28,15 @@ class TeacherAdapter(
 
     inner class ProjectViewHolder(private val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(teacher: Teacher) {
+
+            val email = if (teacher.email.isNullOrEmpty()) "NA" else teacher.email
+            val dept = if (teacher.department.isNullOrEmpty()) "NA" else teacher.department
+
             binding.teacherName.text = teacher.name
             binding.areaInterest.text = teacher.areas_of_interest
-            binding.college.text = teacher.college
-            binding.emailID.text = teacher.email
-            binding.department.text = teacher.department
+            binding.college.text = "College: ${teacher.college}"
+            binding.emailID.text = "Email: ${email}"
+            binding.department.text = "Dept: ${dept}"
 
 
             // Set truncated Area of Interest

@@ -16,6 +16,7 @@ import com.ourapp.ise_app_dev.databinding.ActivityFavteacherBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.core.content.ContextCompat
 
 
 class FavTeacherActivity : AppCompatActivity() {
@@ -123,17 +124,36 @@ class FavTeacherActivity : AppCompatActivity() {
         dialogView.findViewById<TextView>(R.id.position).text = "Position: ${teacher.position}"
         dialogView.findViewById<TextView>(R.id.qualification).text = "Qualification: ${teacher.qualification}"
         dialogView.findViewById<TextView>(R.id.areaInterest).text = "Areas of Interest: ${teacher.areas_of_interest}"
-        dialogView.findViewById<TextView>(R.id.phone).text = "Phone: ${teacher.phone}"
         dialogView.findViewById<TextView>(R.id.college).text = "College: ${teacher.college}"
         dialogView.findViewById<TextView>(R.id.department).text = "Department: ${teacher.department}"
+
+        val phoneTextView = dialogView.findViewById<TextView>(R.id.phone)
+
+        // Check if the phone number is null or empty
+        val phone = teacher.phone
+        if (phone.isNullOrEmpty() || phone == "N/A") {
+            phoneTextView.text = "Phone: NA"
+            phoneTextView.isClickable = false // Make it non-clickable
+        } else {
+            phoneTextView.setTextColor(ContextCompat.getColor(applicationContext, android.R.color.holo_blue_dark))
+            phoneTextView.text = "Phone: $phone"
+            phoneTextView.isClickable = true // Make it clickable
+
+            // Handle phone number click to validate and initiate dialing
+            phoneTextView.setOnClickListener {
+                val phoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
+                startActivity(phoneIntent)
+            }
+        }
 
         // Set the email link to make it clickable
         val teacherLinkTextView = dialogView.findViewById<TextView>(R.id.emailID)
         val email = teacher.email
-        if (email.isNullOrEmpty()) {
+        if (email.isNullOrEmpty() || email == "N/A") {
             teacherLinkTextView.text = "Email: NA"
             teacherLinkTextView.isClickable = false // Make it non-clickable
         } else {
+            teacherLinkTextView.setTextColor(ContextCompat.getColor(applicationContext, android.R.color.holo_blue_dark))
             teacherLinkTextView.text = "Email: $email"
             teacherLinkTextView.setMovementMethod(LinkMovementMethod.getInstance()) // Make it clickable
 
