@@ -47,7 +47,7 @@ pip install -r requirements.txt
 │── 📄 requirements.txt  &nbsp; &nbsp;       # Dependencies list\
 │── 📄 README.md         &nbsp; &nbsp;       # Project documentation\
 <!-- |── 📄 chooseScrapper.py       # chooses the corresponding scrapper\ -->
-│── 📄 Dockerfile      &nbsp; &nbsp;          # Docker file for hosting 
+│── 📄 Dockerfile      &nbsp; &nbsp;          # Docker file for hosting\
 │── 📂 ScrapeIITs   &nbsp; &nbsp;             # Directory for specific IIT scrapers\
 │   ├── 📄 scrape_iit_bombay.py   &nbsp; &nbsp;    # Scraper for IIT Tirupati\
 │   ├── 📄 scrape_iit_gandhinagar.py  &nbsp; &nbsp;      # Scraper for IIT Gandhinagar\
