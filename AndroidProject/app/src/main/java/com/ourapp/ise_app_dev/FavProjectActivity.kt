@@ -3,29 +3,28 @@ package com.ourapp.ise_app_dev
 import android.os.Bundle
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.ourapp.ise_app_dev.databinding.ActivityFavoriteBinding
+import com.ourapp.ise_app_dev.databinding.ActivityFavprojectBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FavoriteActivity : AppCompatActivity() {
+class FavProjectActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityFavoriteBinding
-    private lateinit var favoriteAdapter: FavoriteAdapter
+    private lateinit var binding: ActivityFavprojectBinding
+    private lateinit var favoriteAdapter: FavProjectAdapter
     private var favoriteProjects: MutableList<Project> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFavoriteBinding.inflate(layoutInflater)
+        binding = ActivityFavprojectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Initialize RecyclerView
@@ -39,7 +38,7 @@ class FavoriteActivity : AppCompatActivity() {
         }
 
         // Set up the adapter
-        favoriteAdapter = FavoriteAdapter(favoriteProjects) { project ->
+        favoriteAdapter = FavProjectAdapter(favoriteProjects) { project ->
             // Handle card click (show dialog with project details)
             showProjectDetailsDialog(project)
         }
@@ -57,17 +56,21 @@ class FavoriteActivity : AppCompatActivity() {
                         favoriteAdapter.notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(this@FavoriteActivity, "Failed to load favorites", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@FavProjectActivity, "Failed to load favorites", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Project>>, t: Throwable) {
-                Toast.makeText(this@FavoriteActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FavProjectActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     private fun showProjectDetailsDialog(project: Project) {
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+
         // Create and show the dialog displaying the project details
         val dialogView = layoutInflater.inflate(R.layout.dialog_project_details, null)
 
@@ -75,7 +78,33 @@ class FavoriteActivity : AppCompatActivity() {
         val alertDialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .setTitle("Project Details")
-            .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("Close") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNegativeButton("Remove") { dialog, _ ->
+                userId?.let { userId ->
+                    RetrofitClient.api.removeFavorite(userId, project._id).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(applicationContext, "Project Removed!", Toast.LENGTH_SHORT).show()
+
+                                // Restart the activity to refresh the UI
+                                val intent = intent // Get the current intent
+                                finish() // Finish the current activity
+                                startActivity(intent) // Start the same activity again
+
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(applicationContext, "Project not Saved!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }
+            }
             .create()
 
 
@@ -115,41 +144,6 @@ class FavoriteActivity : AppCompatActivity() {
         projectLinkTextView.ellipsize = TextUtils.TruncateAt.END
         projectLinkTextView.setMovementMethod(LinkMovementMethod.getInstance())
 
-        // Set the Save/Remove button logic here
-        val saveButton: Button = dialogView.findViewById(R.id.save_button)
-        saveButton.setOnClickListener {
-            Toast.makeText(this, "Project already Saved!", Toast.LENGTH_SHORT).show()
-        }
-
-        val user = FirebaseAuth.getInstance().currentUser
-        val userId = user?.uid
-
-        val removeButton: Button = dialogView.findViewById(R.id.remove_button)
-        // Handle Remove button click
-        removeButton.setOnClickListener {
-            userId?.let { userId ->
-                RetrofitClient.api.removeFavorite(userId, project._id).enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(applicationContext, "Project Removed!", Toast.LENGTH_SHORT).show()
-
-                            // Restart the activity to refresh the UI
-                            val intent = intent // Get the current intent
-                            finish() // Finish the current activity
-                            startActivity(intent) // Start the same activity again
-
-                            alertDialog.dismiss()
-                        } else {
-                            Toast.makeText(applicationContext, "Project not Saved!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
-        }
 
         alertDialog.show()
     }

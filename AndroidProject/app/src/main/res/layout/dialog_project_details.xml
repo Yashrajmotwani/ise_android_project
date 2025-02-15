@@ -103,42 +103,6 @@
             android:ellipsize="end"
             android:maxLines="1" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="16dp">
-
-            <!-- Save Button -->
-            <Button
-                android:id="@+id/save_button"
-                android:text="Save"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rounded_button"
-                android:contentDescription="Save project"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
-                android:focusable="true" />
-
-            <!-- Remove Button -->
-            <Button
-                android:id="@+id/remove_button"
-                android:text="Remove"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rounded_button"
-                android:contentDescription="Remove project"
-                android:clickable="true"
-                android:focusable="true" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>

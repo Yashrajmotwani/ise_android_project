@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ourapp.ise_app_dev.databinding.ItemProjectBinding
 
-class FavoriteAdapter(
+class FavProjectAdapter(
     private val favoriteProjects: List<Project>,
     private val onProjectClick: (Project) -> Unit
-) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+) : RecyclerView.Adapter<FavProjectAdapter.FavoriteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val binding = ItemProjectBinding.inflate(LayoutInflater.from(parent.context), parent, false)
