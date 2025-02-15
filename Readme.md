@@ -54,7 +54,7 @@ pip install -r requirements.txt
 │   ├── 📄 scrape_iit_kanpur.py    &nbsp; &nbsp;    # Scraper for IIT Kanpur\
 │   ├── 📄 scrape_iit_hyderabad.py &nbsp; &nbsp;       # Scraper for IIT Hyderabad\
 │   ├── 📄 scrape_iit_kanpur.py   &nbsp; &nbsp;     # Scraper for IIT Kanpur\
-│   ├── 📄 scrape_iit_tirupati.py &nbsp; &nbsp;       # Scraper for IIT Tirupati
+│   ├── 📄 scrape_iit_tirupati.py &nbsp; &nbsp;       # Scraper for IIT Tirupati\
 │   ├── 📄 chooseScrapper.py  &nbsp; &nbsp;      # Selects which script to run based on request\
 │   ├── 📄 links.py   &nbsp; &nbsp;     # Stores the IIT Faculty links department wise\
 <!-- │── 📂 data/                   # Directory to store scraped data (if needed)\
