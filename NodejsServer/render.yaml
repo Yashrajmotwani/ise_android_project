@@ -2,7 +2,7 @@ services:
   - type: web
     name: my-express-app
     runtime: node
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/Yashrajmotwani/ise_android_project/
     envVars:
       - key: PORT
         value: 5000
