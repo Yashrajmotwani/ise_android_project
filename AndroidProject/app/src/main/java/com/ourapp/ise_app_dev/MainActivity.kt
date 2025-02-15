@@ -66,7 +66,14 @@ class MainActivity : AppCompatActivity() {
 
             bottomSheetView.findViewById<View>(R.id.saved_project_option).setOnClickListener {
                 // Navigate to SavedProjectsActivity
-                val savedIntent = Intent(this, FavoriteActivity::class.java)
+                val savedIntent = Intent(this, FavProjectActivity::class.java)
+                startActivity(savedIntent)
+                bottomSheetDialog.dismiss() // Close the BottomSheet
+            }
+
+            bottomSheetView.findViewById<View>(R.id.saved_teacher_option).setOnClickListener {
+                // Navigate to SavedProjectsActivity
+                val savedIntent = Intent(this, FavTeacherActivity::class.java)
                 startActivity(savedIntent)
                 bottomSheetDialog.dismiss() // Close the BottomSheet
             }

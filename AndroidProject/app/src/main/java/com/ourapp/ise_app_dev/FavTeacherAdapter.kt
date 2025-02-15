@@ -1,39 +1,39 @@
 package com.ourapp.ise_app_dev
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ourapp.ise_app_dev.databinding.ItemTeacherBinding
-import android.text.TextUtils
 
-class TeacherAdapter(
-    private val teachers: List<Teacher>,
+class FavTeacherAdapter(
+    private val favoriteTeacher: List<Teacher>,
     private val onProjectClick: (Teacher) -> Unit
-) : RecyclerView.Adapter<TeacherAdapter.ProjectViewHolder>() {
+) : RecyclerView.Adapter<FavTeacherAdapter.FavoriteViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val binding = ItemTeacherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProjectViewHolder(binding)
+        return FavoriteViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ProjectViewHolder, position: Int) {
-        val teacher = teachers[position]
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
+        val teacher = favoriteTeacher[position]
         holder.bind(teacher)
     }
 
     override fun getItemCount(): Int {
-        return teachers.size
+        return favoriteTeacher.size
     }
 
-    inner class ProjectViewHolder(private val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FavoriteViewHolder(private val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(teacher: Teacher) {
+
             binding.teacherName.text = teacher.name
             binding.areaInterest.text = teacher.areas_of_interest
             binding.college.text = teacher.college
             binding.emailID.text = teacher.email
             binding.department.text = teacher.department
-
 
             // Set truncated Area of Interest
             binding.areaInterest.maxLines = 1

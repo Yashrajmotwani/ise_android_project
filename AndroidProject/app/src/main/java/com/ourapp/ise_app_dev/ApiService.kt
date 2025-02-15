@@ -44,4 +44,23 @@ interface ApiService {
     @GET("colleges")
     fun getColleges(): Call<List<College>>
 
+    // Save a Teacher as a favorite
+    @POST("saveTeacher/{userId}")
+    fun saveFavoriteTeacher(
+        @Path("userId") userId: String, // User's ID from Firebase
+        @Body teacher: Teacher // Teacher to be saved as a favorite
+    ): Call<Void> // Void response indicating success or failure
+
+    // Remove a Teacher from favorites
+    @DELETE("removeTeacher/{userId}/{teacherId}")
+    fun removeFavoriteTeacher(
+        @Path("userId") userId: String, // User's ID from Firebase
+        @Path("teacherId") teacherId: String // ID of the Teacher to be removed
+    ): Call<Void> // Void response indicating success or failure
+
+    @GET("getFavoriteTeacher/{userId}")
+    fun getFavoriteTeacher(
+        @Path("userId") userId: String
+    ): Call<List<Teacher>>
+
 }

@@ -63,6 +63,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun showProjectDetailsDialog(project: Project) {
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid
+
         // Create and display the dialog with project details
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_project_details, null)
 
@@ -71,6 +75,42 @@ class SearchFragment : Fragment() {
             .setTitle("Project Details")
             .setPositiveButton("Close") { dialog, _ ->
                 dialog.dismiss()
+            }
+            .setNeutralButton("Save") { dialog, _ ->
+                userId?.let { userId ->
+                    RetrofitClient.api.saveFavorite(userId, project).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(context, "Project Saved!", Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(context, "Failed to save project", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }
+            }
+            .setNegativeButton("Remove") { dialog, _ ->
+                userId?.let { userId ->
+                    RetrofitClient.api.removeFavorite(userId, project._id).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(context, "Project Removed!", Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                            } else {
+                                Toast.makeText(context, "Project not Saved!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }
             }
             .create()
 
@@ -112,52 +152,6 @@ class SearchFragment : Fragment() {
         projectLinkTextView.ellipsize = TextUtils.TruncateAt.END
         projectLinkTextView.setMovementMethod(LinkMovementMethod.getInstance())
 
-        // Initialize Save and Remove buttons (ImageView buttons)
-        val saveButton: Button = dialogView.findViewById(R.id.save_button)
-        val removeButton: Button = dialogView.findViewById(R.id.remove_button)
-
-        val user = FirebaseAuth.getInstance().currentUser
-        val userId = user?.uid
-
-        // Handle Save button click
-        saveButton.setOnClickListener {
-            userId?.let { userId ->
-                RetrofitClient.api.saveFavorite(userId, project).enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(context, "Project Saved!", Toast.LENGTH_SHORT).show()
-                            alertDialog.dismiss()
-                        } else {
-                            Toast.makeText(context, "Failed to save project", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
-        }
-
-        // Handle Remove button click
-        removeButton.setOnClickListener {
-            userId?.let { userId ->
-                RetrofitClient.api.removeFavorite(userId, project._id).enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(context, "Project Removed!", Toast.LENGTH_SHORT).show()
-                            alertDialog.dismiss()
-                        } else {
-                            Toast.makeText(context, "Project not Saved!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
-        }
 
         alertDialog.show()
     }

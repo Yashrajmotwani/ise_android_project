@@ -4,61 +4,68 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.view.View
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.ourapp.ise_app_dev.databinding.FragmentTeacherBinding
+import com.ourapp.ise_app_dev.databinding.ActivityFavteacherBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TeacherFragment : Fragment() {
 
-    private lateinit var teacherViewModel: TeacherViewModel
+class FavTeacherActivity : AppCompatActivity() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val binding = FragmentTeacherBinding.inflate(inflater, container, false)
+    private lateinit var binding: ActivityFavteacherBinding
+    private lateinit var favoriteAdapter: FavTeacherAdapter
+    private var favoriteTeacher: MutableList<Teacher> = mutableListOf()
 
-        teacherViewModel = ViewModelProvider(this).get(TeacherViewModel::class.java)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityFavteacherBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        // Initialize RecyclerView
+        binding.recyclerViewFavTeachers.layoutManager = LinearLayoutManager(this)
 
-        // Observe the search results
-        teacherViewModel.fsearchResults.observe(viewLifecycleOwner, Observer { teachers ->
-            // Update RecyclerView with search results
-            val adapter = TeacherAdapter(teachers) { teacher ->
-                // Show dialog with teacher details when an item is clicked
-                showTeacherDetailsDialog(teacher)
-            }
-            binding.recyclerView.adapter = adapter
-        })
-
-        // Listen for search query
-        binding.searchButton.setOnClickListener {
-            val query = binding.searchEditText.text.toString()
-            if (query.isNotEmpty()) {
-                // Call the search function
-                teacherViewModel.fsearch(query)
-            } else {
-                Toast.makeText(context, "Please enter a query", Toast.LENGTH_SHORT).show()
-            }
+        // Fetch user ID from Firebase
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId != null) {
+            // Fetch favorite teachers from the server
+            fetchFavoriteTeacher(userId)
         }
 
-        return binding.root
+        // Set up the adapter
+        favoriteAdapter = FavTeacherAdapter(favoriteTeacher) { teacher ->
+            // Handle card click (show dialog with teacher details)
+            showTeacherDetailsDialog(teacher)
+        }
+        binding.recyclerViewFavTeachers.adapter = favoriteAdapter
+    }
+
+    private fun fetchFavoriteTeacher(userId: String) {
+        RetrofitClient.api.getFavoriteTeacher(userId).enqueue(object : Callback<List<Teacher>> {
+            override fun onResponse(call: Call<List<Teacher>>, response: Response<List<Teacher>>) {
+                if (response.isSuccessful) {
+                    val teachers = response.body()
+                    if (teachers != null) {
+                        favoriteTeacher.clear()
+                        favoriteTeacher.addAll(teachers)
+                        favoriteAdapter.notifyDataSetChanged()
+                    }
+                } else {
+                    Toast.makeText(this@FavTeacherActivity, "Failed to load favorites", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Teacher>>, t: Throwable) {
+                Toast.makeText(this@FavTeacherActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun showTeacherDetailsDialog(teacher: Teacher) {
@@ -66,32 +73,15 @@ class TeacherFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
         val userId = user?.uid
 
-        // Create and display the dialog with teacher details
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_teacher_details, null)
+        // Create and show the dialog displaying the teacher details
+        val dialogView = layoutInflater.inflate(R.layout.dialog_teacher_details, null)
 
-        val alertDialog = MaterialAlertDialogBuilder(requireContext())
+        // Show the dialog
+        val alertDialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
-            .setTitle("Faculty Details")
+            .setTitle("Teacher Details")
             .setPositiveButton("Close") { dialog, _ ->
                 dialog.dismiss()
-            }
-            .setNeutralButton("Save") { dialog, _ ->
-                userId?.let { userId ->
-                    RetrofitClient.api.saveFavoriteTeacher(userId, teacher).enqueue(object : Callback<Void> {
-                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                            if (response.isSuccessful) {
-                                Toast.makeText(context, "Teacher Profile Saved!", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                            } else {
-                                Toast.makeText(context, "Failed to save Teacher Profile", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Void>, t: Throwable) {
-                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    })
-                }
             }
             .setNegativeButton("Remove") { dialog, _ ->
                 userId?.let { userId ->
@@ -99,15 +89,21 @@ class TeacherFragment : Fragment() {
                         Callback<Void> {
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             if (response.isSuccessful) {
-                                Toast.makeText(context, "Teacher Profile Removed!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext, "Teacher Profile Removed!", Toast.LENGTH_SHORT).show()
+
+                                // Restart the activity to refresh the UI
+                                val intent = intent // Get the current intent
+                                finish() // Finish the current activity
+                                startActivity(intent) // Start the same activity again
+
                                 dialog.dismiss()
                             } else {
-                                Toast.makeText(context, "Teacher not Saved!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext, "Teacher not Saved!", Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         override fun onFailure(call: Call<Void>, t: Throwable) {
-                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                         }
                     })
                 }
@@ -122,6 +118,7 @@ class TeacherFragment : Fragment() {
             .error(R.drawable.baseline_face_24)  // Fallback image if loading fails
             .into(teacherImageView)  // Set the image into the ImageView
 
+        // Set the full details of the teacher in the dialog
         dialogView.findViewById<TextView>(R.id.teacherName).text = "Faculty Name: ${teacher.name}"
         dialogView.findViewById<TextView>(R.id.position).text = "Position: ${teacher.position}"
         dialogView.findViewById<TextView>(R.id.qualification).text = "Qualification: ${teacher.qualification}"
@@ -149,7 +146,7 @@ class TeacherFragment : Fragment() {
                     startActivity(Intent.createChooser(emailIntent, "Send Email"))
                 } else {
                     // Show a message if the email is invalid
-                    Toast.makeText(context, "Invalid email address", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Invalid email address", Toast.LENGTH_SHORT).show()
                 }
             }
         }

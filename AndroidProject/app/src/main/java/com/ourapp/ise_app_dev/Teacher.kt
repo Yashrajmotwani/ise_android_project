@@ -1,6 +1,7 @@
 package com.ourapp.ise_app_dev
 
 data class Teacher(
+    val _id: String,
     val name: String,
     val position: String,
     val qualification: String,
