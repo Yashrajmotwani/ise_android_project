@@ -15,6 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 
 class FavProjectActivity : AppCompatActivity() {
 
@@ -111,8 +112,12 @@ class FavProjectActivity : AppCompatActivity() {
         // Check if discipline, pi_name is empty and set it to "NA" if so
         val discipline = if (project.discipline.isNullOrEmpty()) "NA" else project.discipline
         val pi_name = if (project.pi_name.isNullOrEmpty()) "NA" else project.pi_name
+        val lastdate = if (project.last_date.isNullOrEmpty() || project.last_date == "N/A") "NA" else project.last_date
+        val postdate = if (project.posting_date.isNullOrEmpty() || project.posting_date == "N/A") "NA" else project.posting_date
+        val projectname = if (project.name_of_post.isNullOrEmpty()) project.discipline else project.name_of_post
 
         var status = project.status ?: "" // Safe call to handle null
+
         if (status.isNullOrEmpty() || (status != "Open" && status != "Closed")) {
             // Convert the last_date string to a timestamp for comparison
             val lastDate = project.last_date?.let { parseDate(it) } ?: 0L // Safe call for null last_date
@@ -121,20 +126,24 @@ class FavProjectActivity : AppCompatActivity() {
             val currentDate = System.currentTimeMillis() // Current timestamp
 
             // Compare last date with current date to determine status
-            status = if (lastDate > currentDate) {
-                "Closed" // If last date is in the future, status is "Closed"
+            status = if (lastDate >= currentDate) {
+                "Open" // If last date is in the future, status is "Closed"
             } else {
-                "Open" // If last date is in the past or equal to current date, status is "Open"
+                "Closed" // If last date is in the past or equal to current date, status is "Open"
             }
         }
 
+        if(lastdate == "NA") {
+            status = "NA"
+        }
+
         // Set the full details of the project in the dialog
-        dialogView.findViewById<TextView>(R.id.projectName).text = "Project Name: ${project.name_of_post}"
+        dialogView.findViewById<TextView>(R.id.projectName).text = "Project Name: ${projectname}"
         dialogView.findViewById<TextView>(R.id.pi_name).text = "PI Name: ${pi_name}"
         dialogView.findViewById<TextView>(R.id.projectStatus).text = "Status: ${status}"
         dialogView.findViewById<TextView>(R.id.projectDiscipline).text = "Discipline: ${discipline}"
-        dialogView.findViewById<TextView>(R.id.projectDate).text = "Posting Date: ${project.posting_date}"
-        dialogView.findViewById<TextView>(R.id.lastDate).text = "Last Date: ${project.last_date}"
+        dialogView.findViewById<TextView>(R.id.projectDate).text = "Posting Date: ${postdate}"
+        dialogView.findViewById<TextView>(R.id.lastDate).text = "Last Date: ${lastdate}"
         dialogView.findViewById<TextView>(R.id.college).text = "College: ${project.college}"
 
         // Set the advertisement link (make it clickable)
@@ -148,34 +157,35 @@ class FavProjectActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun parseDate(dateString: String): Long {
-        // List of possible date formats to try
+    fun parseDate(dateString: String): Long {
+        // List of possible date formats, including the format "dd-MM-yyyy"
         val formats = listOf(
-            "dd.MM.yyyy",  // Example: 11.02.2025
-            "yyyy-MM-dd",  // Example: 2025-02-11
-            "MM/dd/yyyy",  // Example: 02/11/2025
-            "yyyy/MM/dd",  // Example: 2025/02/11
-            "dd/MM/yyyy",  // Example: 11/02/2025
-            "MMMM d, yyyy", // Example: February 11, 2025
-            "d MMMM, yyyy"  // Example: 11 February, 2025
+            "dd-MM-yyyy", // Format you want to parse
+            "dd.MM.yyyy",
+            "yyyy-MM-dd",
+            "MM/dd/yyyy",
+            "yyyy/MM/dd"
         )
 
         val locale = Locale.getDefault()
 
-        // Try to parse the date with each format in the list
+        // Iterate through each format to try parsing
         for (format in formats) {
             val formatter = SimpleDateFormat(format, locale)
+            formatter.timeZone = TimeZone.getTimeZone("UTC") // Use UTC for consistency
+
             try {
                 val date = formatter.parse(dateString)
                 if (date != null) {
-                    return date.time // Return the time in milliseconds
+                    println("Successfully parsed $dateString to $date")
+                    return date.time // Return time in milliseconds
                 }
             } catch (e: Exception) {
-                // If parsing fails, continue with the next format
+                println("Error parsing $dateString with format $format")  // Debugging log
             }
         }
 
-        return 0L // Return 0 if no format works
+        return 0L  // Return 0L if no valid format works
     }
 
 }

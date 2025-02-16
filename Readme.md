@@ -22,11 +22,13 @@ We are looking to create an app for all IITs, where the students can view the te
 
 ## Working
 To run the app properly, we need to start the render so that the link - BASE_URL in retrofit client will work and allow the connection from the database. The login details are shared in a file in the assignment submission in Classroom.  
-If we do not want to use render, replace the BASE_URL (RetrofitClient.kt) to the IP in your system,
+If we do not want to use render and run the server.js locally, replace the BASE_URL (RetrofitClient.kt) to the IP in your system.
 It will look something like this:
 ```
 val BASE_URL = "http://a.b.c.d:5000/" // ipv4_address - a.b.c.d
 ```
+We also need to change the uri in server.js to the connection string on the DataBase:
+> const uri = mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>?retryWrites=true&w=majority  
 
 To get your IP Address:
 - Run in the Command prompt terminal:
@@ -40,6 +42,18 @@ Additionally, for all the app features to work make sure the following are enabl
 2. Location - for the Maps/Geofence features and sending notifications based on that  
 
 Also, it should be ensured that app is allowed access to the location when the View Maps feature is used, which might require you to go back and restart that feature.
+
+### Starting Render
+Link to start the Render:
+>https://dashboard.render.com/
+
+#### Steps:
+1. Login using Google account (given in document in Classroom)
+2. Go to Settings
+3. Resume Web Service (at the end of the page)
+4. Click on Manual Deploy
+5. Select Deploy Latest Commit
+
     
 ## Database Details  
 
@@ -80,8 +94,13 @@ Database contains the following Colleges:
   - Added dialog view on click of the cards to show additional information, including images
 - Added phone calls and email sending on click from the app and handled Phone, Email null cases
 
+### 2. Sai Jagadeesh (CS24M101):
+- Web scrapped IIT project positions and faculty details  
+- Created and hosted APIs online for scrapping live data  
+- Stored the scrapped data in Mongo Atlas database to access in-app  
+- Deployed the backend of the app
 
-### 2. Tejas Meshram (CS24M108):
+### 3. Tejas Meshram (CS24M108):
 - Built Sign In and Sign Out feature using Google Firebase
 - Made the Login page
 - Built Splash Screen
@@ -89,9 +108,3 @@ Database contains the following Colleges:
 - Integrated Geofence API to show current location
 - Added Notifications to the Maps so that when a user is within a certain range of an IIT, a notification is received
 
-
-### 3. Sai Jagadeesh (CS24M101):
-- Web scrapped IIT project positions and faculty details  
-- Created and hosted APIs online for scrapping live data  
-- Stored the scrapped data in Mongo Atlas database to access in-app  
-- Deployed the backend of the app
