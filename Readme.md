@@ -101,10 +101,12 @@ Database contains the following Colleges:
 - Deployed the backend of the app
 
 ### 3. Tejas Meshram (CS24M108):
-- Built Sign In and Sign Out feature using Google Firebase
-- Made the Login page
-- Built Splash Screen
-- Integrated Maps API to show all the colleges on the Map
-- Integrated Geofence API to show current location
-- Added Notifications to the Maps so that when a user is within a certain range of an IIT, a notification is received
+- Developed Sign-In and Sign-Out feature leveraging Google Firebase for authentication.
+- Designed and implemented an intuitive Login Page for user access.
+- Created a Splash Screen to enhance user experience.
+- Integrated Google Maps API to visualize all IIT colleges on an interactive map.
+- Implemented Geofencing API to display real-time user location and proximity to IITs.
+- Added Notification Alerts
+  - users receive notifications when they enter a predefined range of an IIT.
+- Web-scraped comprehensive data of all IIT colleges and efficiently stored it in MongoDB Atlas using Compass to access in-app.
 
