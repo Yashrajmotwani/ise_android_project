@@ -1,2 +1,3 @@
-# ise_android_project
-Attaching the APK of the App made
+# ISE ANDROID STUDIO PROJECT - IIT TIRUPATI CSE DEPT
+
+Attaching the APK of the App made, in this folder

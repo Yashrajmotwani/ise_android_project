@@ -7,7 +7,9 @@ object RetrofitClient {
 
     //    private const val BASE_URL = "http://localhost:5000/" // Change to your server's URL if needed
 //     val BASE_URL = "http://10.0.2.2:5000/"
-    val BASE_URL = "http://10.25.82.176:5000/"
+//    val BASE_URL = "http://10.25.82.176:5000/" // for physical phone, give system ipv4
+
+    val BASE_URL = "https://ise-android-project.onrender.com/"
 
     // Create a Retrofit instance
     val api: ApiService by lazy {
