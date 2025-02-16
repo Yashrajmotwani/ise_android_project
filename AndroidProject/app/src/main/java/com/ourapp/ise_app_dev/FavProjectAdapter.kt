@@ -29,11 +29,13 @@ class FavProjectAdapter(
 
             // Check if project.discipline is empty and set it to "NA" if so
             val discipline = if (project.discipline.isNullOrEmpty()) "NA" else project.discipline
+            val lastdate = if (project.last_date.isNullOrEmpty() || project.last_date == "N/A") "NA" else project.last_date
+            val projectname = if (project.name_of_post.isNullOrEmpty()) project.discipline else project.name_of_post
 
             // Set the project data in the views
-            binding.projectTitle.text = project.name_of_post
+            binding.projectTitle.text = projectname
             binding.discipline.text = "Discipline: ${discipline}"
-            binding.lastDate.text = "Last Date: ${project.last_date}"
+            binding.lastDate.text = "Last Date: ${lastdate}"
             binding.college.text = "College: ${project.college}"
 
             // Set the onClick listener for the entire card view to open the dialog
