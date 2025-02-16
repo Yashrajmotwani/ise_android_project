@@ -4,7 +4,23 @@ This github repository contains the code for the Industrial Software Android pro
 ## Use Case
 We are looking to create an app for all IITs, where the students can view the teachers' profiles across IITs based on their area of research, name or college. We are also showing the open positions across IITs that the users can apply for. Both would be done by getting the data using web scraping. Additionally, we would also display the Colleges on a Map and pop notifications when the User if within a given radius of an IIT. This data too has been acquired by Web Scraping from Wikipedia.
 
-## Working:
+## Features
+1. Splash Screen with Logo
+2. Login screen to Sign In from google email
+3. Search for Open Positions using colleges, name of projects, etc.
+4. Search for Faculty using Area of Research, colleges, department, name, etc.
+5. On clicking the cardview, it opens a dialog view to display additional details of the positions or the faculty.
+6. For faculty, if the Phone number or email is provided, on clicking that, it opens the Phone app with phone number set and the email app with the receiver email set.
+7. Save, Remove Open Positions and Faculty Profiles from the Dialog view
+8. Can see Saved data in separate Favorites sections using the Floating Action Button (FAB)
+9. Implemented BottomSheet Dialog linked to the FAB to show other features
+10. View different colleges using the Map API
+11. View your current location and receive notification if within a radius of an IIT
+12. View all the IITs, their details, and on clicking the cardview, can go to their respective websites
+13. Switching between fragments with highlights and colors using Bottom Navigation View (kept at the top)
+14. Sign Out feature
+
+## Working
 To run the app properly, we need to start the render so that the link - BASE_URL in retrofit client will work and allow the connection from the database. The login details are shared in a file in the assignment submission in Classroom.  
 If we do not want to use render, replace the BASE_URL (RetrofitClient.kt) to the IP in your system,
 It will look something like this:
@@ -40,7 +56,7 @@ Database contains the following Faculty and Open Projects:
 | Total Records    | 800+              | 400+                          |
 
   
-Contains the following Colleges:    
+Database contains the following Colleges:    
 | Collection Name    | Documents | Logical Data Size | Avg Document Size | Storage Size | Indexes | Index Size | Avg Index Size |
 |--------------------|-----------|-------------------|-------------------|--------------|---------|------------|----------------|
 | IITFaculty         | 401       | 168.68KB          | 431B              | 112KB        | 1       | 44KB       | 44KB           |
