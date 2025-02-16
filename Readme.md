@@ -94,13 +94,8 @@ Database contains the following Colleges:
   - Added dialog view on click of the cards to show additional information, including images
 - Added phone calls and email sending on click from the app and handled Phone, Email null cases
 
-### 2. Sai Jagadeesh (CS24M101):
-- Web scrapped IIT project positions and faculty details  
-- Created and hosted APIs online for scrapping live data  
-- Stored the scrapped data in Mongo Atlas database to access in-app  
-- Deployed the backend of the app
 
-### 3. Tejas Meshram (CS24M108):
+### 2. Tejas Meshram (CS24M108):
 - Developed Sign-In and Sign-Out feature leveraging Google Firebase for authentication.
 - Designed and implemented an intuitive Login Page for user access.
 - Created a Splash Screen to enhance user experience.
@@ -110,3 +105,9 @@ Database contains the following Colleges:
   - users receive notifications when they enter a predefined range of an IIT.
 - Web-scraped comprehensive data of all IIT colleges and efficiently stored it in MongoDB Atlas using Compass to access in-app.
 
+
+### 3. Sai Jagadeesh (CS24M101):
+- Web scrapped IIT project positions and faculty details  
+- Created and hosted APIs online for scrapping live data  
+- Stored the scrapped data in Mongo Atlas database to access in-app  
+- Deployed the backend of the app
