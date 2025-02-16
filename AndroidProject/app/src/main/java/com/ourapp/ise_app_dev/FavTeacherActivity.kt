@@ -59,7 +59,7 @@ class FavTeacherActivity : AppCompatActivity() {
                         favoriteAdapter.notifyDataSetChanged()
                     }
                 } else {
-                    Toast.makeText(this@FavTeacherActivity, "Failed to load favorites", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@FavTeacherActivity, "No Favorites...", Toast.LENGTH_SHORT).show()
                 }
             }
 
