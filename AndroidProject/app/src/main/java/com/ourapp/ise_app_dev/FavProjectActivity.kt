@@ -118,7 +118,8 @@ class FavProjectActivity : AppCompatActivity() {
 
         var status = project.status ?: "" // Safe call to handle null
 
-        if (status.isNullOrEmpty() || (status != "Open" && status != "Closed")) {
+        if (status.isNullOrEmpty() ||
+            (!status.equals("Open", ignoreCase = true) && !status.equals("Closed", ignoreCase = true))) {
             // Convert the last_date string to a timestamp for comparison
             val lastDate = project.last_date?.let { parseDate(it) } ?: 0L // Safe call for null last_date
 
