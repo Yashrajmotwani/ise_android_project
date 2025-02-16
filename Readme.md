@@ -79,6 +79,10 @@ Database contains the following Colleges:
 | teachers           | 2         | 354B              | 177B              | 36KB         | 1       | 36KB       | 36KB           |
 | users              | 4         | 470B              | 118B              | 36KB         | 1       | 36KB       | 36KB           |
 
+  
+> Note: 
+> 1. IIT Gandhi Nagar shows Open status even after last date is over.
+> 2. The Data is being fetched from the DB which has the Web Scraped Data.
 
 ## Individual Work Done
 
