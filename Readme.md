@@ -83,6 +83,7 @@ Database contains the following Colleges:
 > Note: 
 > 1. IIT Gandhi Nagar shows Open status even after last date is over.
 > 2. The Data is being fetched from the DB which has the Web Scraped Data.
+> 3. App should be run on Light Mode and not on Dark Mode
 
 ## Individual Work Done
 
